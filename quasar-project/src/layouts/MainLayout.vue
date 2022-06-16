@@ -2,32 +2,19 @@
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
+        <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title>
 
         </q-toolbar-title>
-        
+
 
       </q-toolbar>
     </q-header>
 
-    <q-drawer
-      v-model="leftDrawerOpen"
-      show-if-above
-      bordered
-    >
+    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-list>
-        <q-item-label
-          header
-        >
+        <q-item-label header>
           Menu
         </q-item-label>
 
@@ -38,47 +25,56 @@
         />-->
 
 
-                <router-link to="/">
+        <router-link to="/">
 
-          <q-item
-          clickable
-          >
-          <q-item-section
-          avatar
-          >
-          <q-icon name="house" />
-          </q-item-section>
+          <q-item clickable>
+            <q-item-section avatar>
+              <q-icon name="house" />
+            </q-item-section>
 
-          <q-item-section>
-          <q-item-label>Home</q-item-label>
-          <q-item-label caption>Go to homepage</q-item-label>
-          </q-item-section>
+            <q-item-section>
+              <q-item-label>Log in</q-item-label>
+              <q-item-label caption>Register and login</q-item-label>
+            </q-item-section>
           </q-item>
 
-          </router-link>
+        </router-link>
+
+        <router-link to="/UserList">
+
+          <q-item clickable>
+            <q-item-section avatar>
+              <q-icon name="people" />
+            </q-item-section>
+
+            <q-item-section>
+              <q-item-label>Users</q-item-label>
+              <q-item-label caption>Go to users list</q-item-label>
+            </q-item-section>
+          </q-item>
+
+
+        </router-link>
+
+        <router-link to="/NoteList">
+
+          <q-item clickable>
+            <q-item-section avatar>
+              <q-icon name="today" />
+            </q-item-section>
+
+            <q-item-section>
+              <q-item-label>Notes</q-item-label>
+              <q-item-label caption>Go to notes list</q-item-label>
+            </q-item-section>
+          </q-item>
+
+
+        </router-link>
 
 
 
-      <router-link to="/NoteList">
 
-            <q-item
-              clickable
-            >
-              <q-item-section
-                avatar
-              >
-                <q-icon name="today" />
-              </q-item-section>
-
-              <q-item-section>
-                <q-item-label>Notes</q-item-label>
-                <q-item-label caption>Go to notes list</q-item-label>
-              </q-item-section>
-            </q-item>
-
-
-      </router-link>
-         
 
 
       </q-list>
@@ -109,18 +105,18 @@ export default defineComponent({
 
   data() {
 
-        const leftDrawerOpen = ref(false)
+    const leftDrawerOpen = ref(false)
 
-        return {
-          leftDrawerOpen,
-          toggleLeftDrawer () {
-            leftDrawerOpen.value = !leftDrawerOpen.value
-            }
-          }
-        }
+    return {
+      leftDrawerOpen,
+      toggleLeftDrawer() {
+        leftDrawerOpen.value = !leftDrawerOpen.value
+      }
+    }
+  }
 
-  
-  
+
+
 })
 </script>
 
