@@ -153,12 +153,12 @@ export default defineComponent({
   data() {
     return {
       notes: [],
-      note: "",
-      title: "",
-      content: "",
-      begining: "",
-      end: "",
-      priority: "",
+      note: '',
+      title: '',
+      content: '',
+      begining: '',
+      end: '',
+      priority: '',
       isclicked: false
     };
   },

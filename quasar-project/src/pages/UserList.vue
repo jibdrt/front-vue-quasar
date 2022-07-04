@@ -1,9 +1,10 @@
 <template>
 
-
+<div>
 
     <q-card v-for="user in users" class="card flex q-pa-xl" :key="user
     ">
+
         <q-item>
             {{ user.username }}
         </q-item>
@@ -22,7 +23,7 @@
 
     </q-card>
 
-
+</div>
 
 </template>
 
@@ -40,7 +41,7 @@ export default defineComponent({
     name: "UserList",
 
     mounted() {
-        axios.get("http://localhost:8080/api/users")
+        axios.get("http://localhost:8080/api/me")
             .then((response) => (this.users = response.data["hydra:member"]))
             .then(response => console.log(response));
     },
