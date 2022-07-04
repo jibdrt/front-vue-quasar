@@ -34,16 +34,17 @@
 </template>
 
 <script>
-import axios from "axios";
-import { defineComponent } from "vue";
+import axios from 'axios';
+import { defineComponent } from 'vue';
+
 
 export default defineComponent({
   name: "IndexPage",
   data() {
+
     return {
       username: '',
-      password: '',
-      token: ''
+      password: ''
     };
   },
 
@@ -55,7 +56,8 @@ export default defineComponent({
           password: this.password,
         })
         .then((response) => {
-          console.log(response);
+          localStorage.setItem('accessToken', response.data.token);
+          console.log(response.data); 
         })
         .catch((error) => {
           console.log(error);
