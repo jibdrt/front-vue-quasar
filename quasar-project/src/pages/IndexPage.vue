@@ -1,3 +1,4 @@
+
 <template>
   <q-page class="flex flex-center">
     <q-card square bordered class="q-pa-lg shadow-1">
@@ -9,6 +10,7 @@
             clearable
             v-model="username"
             label="username"
+            autocomplete="on"
           />
           <q-input
             square
@@ -17,6 +19,7 @@
             v-model="password"
             type="password"
             label="password"
+            autocomplete="on"
           />
         </q-form>
       </q-card-section>
@@ -36,28 +39,31 @@
 <script>
 import axios from 'axios';
 import { defineComponent } from 'vue';
-
+import { useAuthStore } from 'stores/stores';
 
 export default defineComponent({
   name: "IndexPage",
   data() {
-
+    const store = useAuthStore()
     return {
-      username: '',
-      password: ''
+      username: "",
+      password: "",
+      store
     };
   },
 
   methods: {
     login() {
+      const url = "http://localhost:8080/api";
       axios
-        .post("http://localhost:8080/api/login", {
+        .post(url + "/login", {
           username: this.username,
           password: this.password,
         })
         .then((response) => {
-          localStorage.setItem('accessToken', response.data.token);
-          console.log(response.data); 
+          this.store.login(response.data.token);
+          this.$router.push(url + "/notelist");
+          console.log(response.data);
         })
         .catch((error) => {
           console.log(error);
@@ -68,65 +74,3 @@ export default defineComponent({
 </script>
 
 
-
-
-
-<!--  <q-item>
-      {{ $data.date1 }}<br>{{ $data.date2 }}
-    </q-item><br>
-     <q-card>
-
-      <q-btn label="Deadline" color="primary">
-        <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-          <q-date v-model="date1">
-            <div class="row items-center justify-end q-gutter-sm">
-              <q-btn label="Cancel" color="primary" flat v-close-popup />
-              <q-btn label="OK" color="primary" flat v-close-popup />
-            </div>
-          </q-date>
-        </q-popup-proxy>
-
-      </q-btn>
-
-      <q-btn label="Deadline" color="primary">
-        <q-popup-proxy cover transition-show="scale" transition-hide="scale">
-          <q-date v-model="date2" @click="dueDate()">
-            <div class="row items-center justify-end q-gutter-sm">
-              <q-btn label="Cancel" color="primary" flat v-close-popup />
-              <q-btn label="OK" color="primary" flat v-close-popup />
-            </div>
-          </q-date>
-        </q-popup-proxy>
-
-      </q-btn>
-
-      <div id="deadline">
-
-      </div>
-
-    </q-card> 
-
-
-     methods: {
-    dueDate() {
-      let date1 = this.date1;
-      let date2 = this.date2;
-      let obj1 = new Date(date1);
-      let obj2 = new Date(date2);
-
-      let diffDays = (obj2 - obj1) / (1000 * 60 * 60 * 24);
-
-      document.getElementById("deadline").innerHTML +=
-        diffDays + " jours restants";
-    },
-  },
-  
-
-
-      return {
-      date1: "",
-      date2: "",
-    };
-  
-  
-  -->

@@ -9,7 +9,12 @@
         </q-toolbar-title>
 
 
+         <q-btn v-if="store.isconnected" flat dense round icon="logout" aria-label="exit" @click="disconnect" />
+
       </q-toolbar>
+
+
+
     </q-header>
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
@@ -48,8 +53,8 @@
             </q-item-section>
 
             <q-item-section>
-              <q-item-label>Users</q-item-label>
-              <q-item-label caption>Go to users list</q-item-label>
+              <q-item-label>Profile</q-item-label>
+              <q-item-label caption>Display user informations</q-item-label>
             </q-item-section>
           </q-item>
 
@@ -92,6 +97,7 @@
 
 <script>
 import { defineComponent, ref } from 'vue'
+import { useAuthStore } from 'stores/stores';
 
 
 
@@ -104,14 +110,22 @@ export default defineComponent({
   },
 
   data() {
-
+    const store = useAuthStore();
     const leftDrawerOpen = ref(false)
 
     return {
       leftDrawerOpen,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value
-      }
+      },
+      store
+    }
+  },
+
+  methods: {
+    disconnect(){
+      this.store.logout();
+      this.$router.push("/");
     }
   }
 
