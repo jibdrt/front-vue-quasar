@@ -2,14 +2,16 @@ import { defineStore } from 'pinia';
 import { LocalStorage } from 'quasar';
 
 export const useAuthStore = defineStore('auth', {
-  
   state: () => ({
     jwt: LocalStorage.getItem('accessToken')
   }),
 
   getters: {
-    isconnected(state){
+    isconnected(state) {
       return state.jwt != null && state.jwt != "";
+    },
+    isnotconnected(state) {
+      return state.jwt == null | state.jwt == "";
     }
   },
 
@@ -18,7 +20,7 @@ export const useAuthStore = defineStore('auth', {
       this.jwt = token;
       localStorage.setItem("accessToken", token);
     },
-    logout(){
+    logout() {
       this.jwt = null;
       localStorage.setItem("accessToken", "");
     }

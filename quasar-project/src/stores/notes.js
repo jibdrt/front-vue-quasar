@@ -32,6 +32,12 @@ export const useNoteStore = defineStore('notes', {
                 .catch((error) => {
                     console.log(error);
                 });
+        },
+        deleteNote(id){
+            axios.delete("http://localhost:8080/api/notes/" + id).then(() => {
+                const idx = this.notes.findIndex((g) => g.id === id);
+                this.notes.splice(idx, 1);
+                });
         }
     }
 })

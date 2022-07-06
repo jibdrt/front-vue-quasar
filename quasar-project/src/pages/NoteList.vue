@@ -86,8 +86,9 @@
       </q-popup-proxy>
     </q-btn>
 
-    <q-card v-for="note in notestore.getNotes" v-bind:key="note" class="card flex">
+    <q-card v-for="note in notestore.getNotes" v-bind:key="note" class="card flex q-ma-xl">
       <q-item-section>
+        
         <!--<q-item>
             Category : {{ note.category }}
           </q-item> -->
@@ -114,8 +115,8 @@
         <q-btn
           v-on:click="deleteNote(note.id)"
           class="btn delete"
-          color="deep-orange"
-          glossy
+          color="red"
+
         >
           <q-icon name="delete" />
         </q-btn>
@@ -206,10 +207,7 @@ export default defineComponent({
     },
 
     deleteNote(id) {
-      axios.delete("http://localhost:8080/api/notes/" + id).then(() => {
-        const idx = this.notes.findIndex((g) => g.id === id);
-        this.notes.splice(idx, 1);
-      });
+      this.notestore.deleteNote(id);
     },
     editTitle(id) {
       axios
