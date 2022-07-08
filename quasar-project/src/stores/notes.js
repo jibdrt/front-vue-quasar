@@ -16,6 +16,11 @@ export const useNoteStore = defineStore('notes', {
     },
 
     actions: {
+
+        thisNote() {
+            
+        },
+
         fetchNotes() {
             axios
                 .get("http://localhost:8080/api/notes")

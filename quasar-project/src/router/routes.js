@@ -5,8 +5,13 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/IndexPage.vue') },
-      { path: '/NoteList', component: () => import('pages/NoteList.vue') },
-      { path: '/UserList', component: () => import('pages/UserList.vue') }
+      { path: '/notelist', component: () => import('pages/NoteList.vue') },
+      { path: '/userlist', component: () => import('pages/UserList.vue') },
+      {
+        name: 'NoteDetail',
+        path: '/notelist/:id',
+        component: () => import('pages/NoteDetail.vue')
+      }
     ]
   },
 

@@ -1,5 +1,6 @@
 <template>
   <q-page>
+    
     <q-btn
       @click="isclicked = !isclicked"
       class="q-ma-md q-pa-md"
@@ -10,6 +11,7 @@
 
       <q-popup-proxy v-show="isclicked">
         <q-form class="q-gutter-md q-pa-md addnote-form">
+          
           <q-input filled v-model="title" label="title" />
           <q-input filled v-model="content" label="content" />
 
@@ -97,9 +99,10 @@
 
         <q-item>
           {{ note.title }}
-          <q-popup-edit v-model="note.title" v-slot="scope">
-            <q-input v-model="scope.value" autofocus />
-            <q-btn @click="editTitle(id)"><q-icon name="check" /></q-btn>
+          <q-popup-edit>
+            <q-input v-model="title" autofocus />
+            <q-input v-model="content" v autofocus />
+            <q-btn @click="editNote(note.id)"><q-icon name="check" /></q-btn>
           </q-popup-edit>
         </q-item>
 
@@ -109,14 +112,18 @@
       </q-item-section>
 
       <div class="btn-container">
-        <q-btn v-model="note.title" class="btn update" color="primary" glossy>
-          <q-icon name="check" />
+        
+        <router-link :to="`/notelist/${note.id}`">
+        <q-btn class="btn update" color="primary">
+          <q-icon name="fullscreen" />
         </q-btn>
+        </router-link>
+
+
         <q-btn
-          v-on:click="deleteNote(note.id)"
+          @click="deleteNote(note.id)"
           class="btn delete"
           color="red"
-
         >
           <q-icon name="delete" />
         </q-btn>
@@ -126,34 +133,46 @@
 </template>
 
 
-<style lang="sass" scoped>
-.card
-  height: 192px
+<style scoped>
+.card{
+  height: 192px;
+}
 
-.btn-container
-  width: 80px
-  margin-top: 32px
+.btn-container{
+  width: 80px;
+  margin-top: 32px;
+}
 
-.delete, .update
-  width: 48px
-  height: 48px !important
+.btn-container a{
+  text-decoration: none;
+}
 
-ul
-  list-style: none
+.delete, .update{
+  width: 48px;
+  height: 48px !important;
+}
 
-.btn
-  padding: 1px
-  margin: 2px
-  height: 24px
+ul{
+  list-style: none;
+  }
 
-.datepicker-container
-  display: flex
-  margin: 0 20px 0 20px
+.btn{
+  padding: 1px;
+  margin: 2px;
+  height: 24px;
+}
 
-.q-form
-  background: white
-  padding: 18px
-  z-index: 9999
+.datepicker-container{
+  display: flex;
+  margin: 0 20px 0 20px;
+}
+
+.q-form{
+  background: white;
+  padding: 18px;
+  z-index: 9999;
+}
+
 </style>
 
 
@@ -170,12 +189,18 @@ export default defineComponent({
   /*   mounted() {
     this.notestore.fetchNotes();
   }, */
-
+  
   data() {
     const store = useAuthStore();
     const notestore = useNoteStore();
+
+
+
+
+
     return {
-      note: "",
+      notes: [],
+      note: {},
       title: "",
       content: "",
       begining: "",
@@ -183,7 +208,7 @@ export default defineComponent({
       priority: "",
       isclicked: false,
       store,
-      notestore,
+      notestore
     };
   },
   methods: {
@@ -209,14 +234,16 @@ export default defineComponent({
     deleteNote(id) {
       this.notestore.deleteNote(id);
     },
-    editTitle(id) {
+    editNote(id) {
       axios
         .put("http://localhost:8080/api/notes/" + id, {
           title: this.title,
+          content: this.content
+/*           priority: this.priority */
         })
-        .then((response) => response)
-        .then((response) => {
-          const idx = this.notes.findIndex((g) => g.id === id);
+        .then(response => response)
+        .then(response => {
+          const idx = this.notes.findIndex(g => g.id === id)
           this.notes[idx] = response.data;
           console.log(response.data);
         })
