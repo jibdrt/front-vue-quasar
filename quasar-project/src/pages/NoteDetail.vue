@@ -6,11 +6,7 @@
     <q-btn @click="$router.go(-1)">BACK</q-btn>
     <h2>note detail</h2>
     <div>
-      {{ note.id }}
-      {{ note.title }}
-      {{ note.content }}
-      {{ note.begining }}
-      {{ note.end }}
+    {{ $data.note }}
     </div>
   </div>
 </template>
@@ -34,7 +30,7 @@ export default {
 /*     const notestore = useNoteStore(); */
     return {
       note: {},
-      id: "",
+      id: ""
 /*       notestore */
     };
   },

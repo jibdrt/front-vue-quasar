@@ -6,10 +6,6 @@
     </q-item>
       <td>
         <tr>
-          id :
-          {{ user.id }}
-        </tr>
-        <tr>
           username :
           {{ user.username }}
         </tr>
@@ -42,8 +38,8 @@ export default defineComponent({
   mounted() {
     const token = localStorage.getItem("accessToken");
     axios
-      .get("http://localhost:8080/api/me", {
-        headers: { Authorization: `Bearer ${token}` },
+      .get("http://localhost:8080/api/profil/user", {
+        headers: { 'x-access-token': `${token}` },
       })
       .then((response) => (this.user = response.data))
       .then((response) => console.log(response));
@@ -53,13 +49,9 @@ export default defineComponent({
     const store = useAuthStore();
     return {
       users: [],
-      user: "",
+      user: {},
       username: "",
-      firstname: "",
-      lastname: "",
       email: "",
-      phone: "",
-      color: "",
       store,
     };
   },

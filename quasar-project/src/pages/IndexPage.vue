@@ -56,13 +56,13 @@ export default defineComponent({
     login() {
       const url = "http://localhost:8080/api";
       axios
-        .post(url + "/login", {
+        .post(url + "/auth/signin", {
           username: this.username,
           password: this.password,
         })
         .then((response) => {
-          this.store.login(response.data.token);
-          this.$router.push(url + "/notelist");
+          this.store.login(response.data.accessToken);
+          this.$router.push(url + "/UserList");
           console.log(response.data);
         })
         .catch((error) => {

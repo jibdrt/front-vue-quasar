@@ -70,12 +70,29 @@
 
             <q-item-section>
               <q-item-label>Notes</q-item-label>
-              <q-item-label caption>Go to notes list</q-item-label>
+              <q-item-label caption>Display all notes</q-item-label>
             </q-item-section>
           </q-item>
 
 
         </router-link>
+
+
+<!--         <router-link to="/CategoriesList">
+
+          <q-item clickable>
+            <q-item-section avatar>
+              <q-icon name="category" />
+            </q-item-section>
+
+            <q-item-section>
+              <q-item-label>Categories</q-item-label>
+              <q-item-label caption>Explore notes by their category</q-item-label>
+            </q-item-section>
+          </q-item>
+
+
+        </router-link> -->
 
 
 
