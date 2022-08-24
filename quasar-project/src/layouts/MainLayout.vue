@@ -7,9 +7,16 @@
         <q-toolbar-title>
 
         </q-toolbar-title>
-
-
-         <q-btn v-if="store.isconnected" flat dense round icon="logout" aria-label="exit" @click="disconnect" />
+          
+          <div v-if="store.isconnected">
+          <q-badge color="green" label="Connecté" />
+          <q-btn flat rounded>
+            <q-icon name="account_circle"></q-icon>
+          </q-btn>
+          </div>
+          
+          <q-badge v-if="store.isnotconnected" color="red" label="Déconnecté" />
+         <q-btn v-if="store.isconnected" flat dense round icon="logout" aria-label="exit" @click="disconnect(); notifyLogout();" />
 
       </q-toolbar>
 
@@ -45,7 +52,7 @@
 
         </router-link>
 
-        <router-link to="/UserList">
+        <router-link to="/UserProfil">
 
           <q-item clickable>
             <q-item-section avatar>
@@ -78,23 +85,6 @@
         </router-link>
 
 
-<!--         <router-link to="/CategoriesList">
-
-          <q-item clickable>
-            <q-item-section avatar>
-              <q-icon name="category" />
-            </q-item-section>
-
-            <q-item-section>
-              <q-item-label>Categories</q-item-label>
-              <q-item-label caption>Explore notes by their category</q-item-label>
-            </q-item-section>
-          </q-item>
-
-
-        </router-link> -->
-
-
 
 
 
@@ -115,7 +105,7 @@
 <script>
 import { defineComponent, ref } from 'vue'
 import { useAuthStore } from 'stores/stores';
-
+import { useQuasar } from "quasar";
 
 
 
@@ -128,14 +118,20 @@ export default defineComponent({
 
   data() {
     const store = useAuthStore();
-    const leftDrawerOpen = ref(false)
-
+    const leftDrawerOpen = ref(false);
+    const $q = useQuasar();
     return {
       leftDrawerOpen,
+      store,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value
       },
-      store
+      notifyLogout() {
+      $q.notify({
+          color: "purple",
+          message: "Successfully Logged out",
+        });
+      },
     }
   },
 

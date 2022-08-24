@@ -23,7 +23,7 @@
           />
         </q-form>
       </q-card-section>
-      <q-card-actions class="q-px-md">
+      <q-card-actions @click="showDefault" class="q-px-md">
         <q-btn
           @click="login()"
           color="light-blue"
@@ -37,14 +37,15 @@
 </template>
 
 <script>
-import axios from 'axios';
-import { defineComponent } from 'vue';
-import { useAuthStore } from 'stores/stores';
+import axios from "axios";
+import { defineComponent } from "vue";
+import { useAuthStore } from "stores/stores";
+
 
 export default defineComponent({
   name: "IndexPage",
   data() {
-    const store = useAuthStore()
+    const store = useAuthStore();
     return {
       username: "",
       password: "",
@@ -62,7 +63,7 @@ export default defineComponent({
         })
         .then((response) => {
           this.store.login(response.data.accessToken);
-          this.$router.push(url + "/UserList");
+          this.$router.push(url + "/UserProfil");
           console.log(response.data);
         })
         .catch((error) => {

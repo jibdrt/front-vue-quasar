@@ -1,25 +1,87 @@
 <template>
-  <q-page>
-    <q-btn
-      @click="isclicked = !isclicked"
-      class="q-ma-md q-pa-md"
-      color="green"
-      rounded
+  <q-page class="row">
+    <q-page-sticky
+      style="z-index: 999"
+      position="bottom-right"
+      :offset="[18, 18]"
     >
-      <q-icon name="add" />
+      <q-btn
+        v-if="store.isconnected"
+        @click="isclicked = !isclicked"
+        class="q-pa-md"
+        color="green"
+        rounded
+      >
+        <q-icon name="add" />
+      </q-btn>
+    </q-page-sticky>
 
-      <q-popup-proxy v-show="isclicked">
-        <q-form class="q-gutter-md q-pa-md addnote-form">
-          <q-input filled v-model="title" label="title" />
-          <q-input filled v-model="content" label="content" />
+    <div class="col">
+      <q-card
+        v-for="note in notestore.getNotes"
+        v-bind:key="note"
+        class="card flex"
+      >
+        <q-item-section>
+          <q-item> Deadline : {{ note.deadline }} </q-item>
 
           <q-item>
-            <q-btn label="deadline" color="primary">
-              <q-popup-proxy
-                cover
-                transition-show="scale"
-                transition-hide="scale"
-              >
+            {{ note.title }}
+            <!--           <q-popup-edit>
+            <q-input v-model="title" autofocus />
+            <q-input v-model="content" v autofocus />
+            <q-btn @click="editNote(note.id)"><q-icon name="check" /></q-btn>
+          </q-popup-edit> -->
+          </q-item>
+
+          <q-item style="word-break: break-all">
+            {{ note.content }}
+          </q-item>
+        </q-item-section>
+
+        <div class="btn-container">
+          <router-link :to="`/notelist/${note._id}`">
+            <q-btn class="btn" color="primary">
+              <q-icon name="fullscreen" />
+            </q-btn>
+          </router-link>
+
+          <q-btn
+            v-if="store.isconnected"
+            @click="deleteNote(note.id)"
+            class="btn"
+            color="red"
+          >
+            <q-icon name="delete" />
+          </q-btn>
+        </div>
+      </q-card>
+    </div>
+    <div v-show="isclicked" class="col q-ma-md col q-card q-page-sticky" style="z-index: 999">
+      <div class="q-card">
+        <q-form>
+          <div class="q-pa-md q-gutter-sm">
+            <q-toolbar>
+              <div class="row text-h5">Ajouter une nouvelle note</div>
+              <q-btn @click="isclicked = !isclicked" flat rounded
+                ><i class="fas fa-window-close"></i
+              ></q-btn>
+            </q-toolbar>
+            <hr class="q-separator" />
+            <q-input clearable v-model="title" label="Titre de votre note" />
+            <q-input
+              v-model="content"
+              clearable
+              type="textarea"
+              color="primary"
+              label="Ajoutez du contenu"
+            />
+          </div>
+
+          <q-card-section class="q-item-section">
+            <q-btn flat outline>
+              <i class="fas fa-calendar-alt"></i>
+              <q-popup-proxy transition-show="scale" transition-hide="scale">
                 <q-date v-model="deadline">
                   <div class="row items-center justify-end q-gutter-sm">
                     <q-btn label="Cancel" color="primary" flat v-close-popup />
@@ -28,64 +90,18 @@
                 </q-date>
               </q-popup-proxy>
             </q-btn>
-          </q-item>
-
-          {{$data.deadline}}
-
-          <div>
-            <q-btn @click="createNote()" color="primary" label="Create">
-            </q-btn>
-
-            <q-btn
-              @click="onReset()"
-              label="Reset"
-              type="reset"
-              color="primary"
-              class="q-ml-sm"
-            />
-          </div>
+                Choisissez une date butoire
+                {{ $data.deadline }}
+          </q-card-section>
+          <q-card-section>
+                            <q-btn flat rounded>
+                              <i @click="createNote()" style="color:purple;font-size: 32px;" class="fas fa-save"></i>
+                            </q-btn>
+          </q-card-section>
+          
         </q-form>
-      </q-popup-proxy>
-    </q-btn>
-
-    <q-card
-      v-for="note in notestore.getNotes"
-      v-bind:key="note"
-      class="card flex q-ma-xl"
-    >
-      <q-item-section>
-        <!--<q-item>
-            Category : {{ note.category }}
-          </q-item> -->
-
-        <q-item> Deadline : {{ note.deadline }} </q-item>
-
-        <q-item>
-          {{ note.title }}
-          <q-popup-edit>
-            <q-input v-model="title" autofocus />
-            <q-input v-model="content" v autofocus />
-            <q-btn @click="editNote(note.id)"><q-icon name="check" /></q-btn>
-          </q-popup-edit>
-        </q-item>
-
-        <q-item style="word-break: break-all">
-          {{ note.content }}
-        </q-item>
-      </q-item-section>
-
-      <div class="btn-container">
-        <router-link :to="`/notelist/${note._id}`">
-          <q-btn class="btn" color="primary">
-            <q-icon name="fullscreen" />
-          </q-btn>
-        </router-link>
-
-        <q-btn @click="deleteNote(note.id)" class="btn" color="red">
-          <q-icon name="delete" />
-        </q-btn>
       </div>
-    </q-card>
+    </div>
   </q-page>
 </template>
 
@@ -176,10 +192,10 @@ export default defineComponent({
     },
 
     deleteNote(id) {
-            axios.delete(`http://localhost:8080/api/notes/${note._id}`).then(() => {
-                const idx = this.notes.findIndex((g) => g.id === id);
-                this.notes.splice(idx, 1);
-            });
+      axios.delete(`http://localhost:8080/api/notes/${note._id}`).then(() => {
+        const idx = this.notes.findIndex((g) => g.id === id);
+        this.notes.splice(idx, 1);
+      });
     },
     editNote(id) {
       axios
