@@ -23,15 +23,10 @@
         class="card flex"
       >
         <q-item-section>
-          <q-item> Deadline : {{ note.deadline }} </q-item>
+          <q-item>{{ note.deadline }} </q-item>
 
           <q-item>
             {{ note.title }}
-            <!--           <q-popup-edit>
-            <q-input v-model="title" autofocus />
-            <q-input v-model="content" v autofocus />
-            <q-btn @click="editNote(note.id)"><q-icon name="check" /></q-btn>
-          </q-popup-edit> -->
           </q-item>
 
           <q-item style="word-break: break-all">
@@ -41,30 +36,36 @@
 
         <div class="btn-container">
           <router-link :to="`/notelist/${note._id}`">
-            <q-btn class="btn" color="primary">
-              <q-icon name="fullscreen" />
+            <q-btn class="btn" color="primary" flat rounded>
+              <i class="fa fa-xl fa-info-circle"></i>
             </q-btn>
           </router-link>
 
           <q-btn
             v-if="store.isconnected"
-            @click="deleteNote(note.id)"
+            @click="deleteNote(note._id);"
             class="btn"
             color="red"
+            flat
+            rounded
           >
-            <q-icon name="delete" />
+            <i class="fa fa-trash fa-xl"></i>
           </q-btn>
         </div>
       </q-card>
     </div>
-    <div v-show="isclicked" class="col q-ma-md col q-card q-page-sticky" style="z-index: 999">
+    <q-page-sticky
+      v-show="isclicked"
+      class="col q-ma-md col q-card q-page-sticky"
+      style="z-index: 999"
+    >
       <div class="q-card">
         <q-form>
           <div class="q-pa-md q-gutter-sm">
             <q-toolbar>
               <div class="row text-h5">Ajouter une nouvelle note</div>
               <q-btn @click="isclicked = !isclicked" flat rounded
-                ><i class="fas fa-window-close"></i
+                ><i class="fas fa-circle fa-window-close" style="color: red"></i
               ></q-btn>
             </q-toolbar>
             <hr class="q-separator" />
@@ -90,18 +91,21 @@
                 </q-date>
               </q-popup-proxy>
             </q-btn>
-                Choisissez une date butoire
-                {{ $data.deadline }}
+            Choisissez une date butoire
+            {{ $data.deadline }}
           </q-card-section>
           <q-card-section>
-                            <q-btn flat rounded>
-                              <i @click="createNote()" style="color:purple;font-size: 32px;" class="fas fa-save"></i>
-                            </q-btn>
+            <q-btn flat rounded>
+              <i
+                @click="createNote()"
+                style="color: purple; font-size: 32px"
+                class="fas fa-save"
+              ></i>
+            </q-btn>
           </q-card-section>
-          
         </q-form>
       </div>
-    </div>
+    </q-page-sticky>
   </q-page>
 </template>
 
@@ -155,6 +159,7 @@ import axios from "axios";
 /* import addNotePopup from "../components/addNotePopup.vue"; */
 import { useAuthStore } from "stores/stores";
 import { useNoteStore } from "stores/notes";
+import { useQuasar } from "quasar";
 
 export default defineComponent({
   /*   components: { addNotePopup }, */
@@ -166,6 +171,21 @@ export default defineComponent({
   data() {
     const store = useAuthStore();
     const notestore = useNoteStore();
+/*     const $q = useQuasar();
+
+    function confirmDeletion() {
+      $q.dialog({
+        title: 'Confirm',
+        message: 'Would you like to confirm the deletion',
+        cancel: true,
+        persistent: true
+      }).onOk(() => {
+        console.log('>>>> OK')
+      }).onCancel(() => {
+        console.log('>>>> Cancel')
+      })
+    } */
+
 
     return {
       notes: [],
@@ -175,9 +195,10 @@ export default defineComponent({
       deadline: "",
       isclicked: false,
       store,
-      notestore,
+      notestore
     };
   },
+
   methods: {
     createNote() {
       this.notestore.createNote({
@@ -186,17 +207,16 @@ export default defineComponent({
         deadline: this.deadline,
       });
     },
+
     onReset() {
       console.log("reset press sur component parent");
       (this.title = ""), (this.content = ""), (this.deadline = "");
     },
 
-    deleteNote(id) {
-      axios.delete(`http://localhost:8080/api/notes/${note._id}`).then(() => {
-        const idx = this.notes.findIndex((g) => g.id === id);
-        this.notes.splice(idx, 1);
-      });
+    deleteNote(_id) {
+      this.notestore.deleteNote(_id);
     },
+
     editNote(id) {
       axios
         .put("http://localhost:8080/api/notes/" + id, {

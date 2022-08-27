@@ -1,7 +1,7 @@
 
 <template>
   <q-page class="flex flex-center">
-    <q-card square bordered class="q-pa-lg shadow-1">
+    <div square>
       <q-card-section>
         <q-form class="q-gutter-md">
           <q-input
@@ -32,7 +32,7 @@
           label="Login"
         />
       </q-card-actions>
-    </q-card>
+    </div>
   </q-page>
 </template>
 

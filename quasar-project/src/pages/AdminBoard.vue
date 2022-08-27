@@ -1,18 +1,20 @@
 <template>
   <div>
     <q-card class="my-card" v-if="store.isconnected">
-      <q-item-section v-for="user in users" :key="user">
-        <q-card-section class="bg-purple text-white">
-          <div class="text-h6">Connecté en tant que : {{ user.username }}</div>
-          <div class="text-subtitle2">Adresse email de contact : {{ user.email }}</div>
-          <div class="text-subtitle2">role : {{ user.roles }}</div>
+      <div v-for="user in users" :key="user">
+        <q-card-section class="text-white bg-blue-4">
+          <div class="text-h6">{{ user.username }}</div>
+          <div class="text-subtitle2">{{ user.email }}</div>
         </q-card-section>
-      </q-item-section>
+        <q-separator />
+      </div>
     </q-card>
 
     <q-card v-if="store.isnotconnected" class="q-pa-xl q-ma-xl">
-      Vous n'êtes pas connecté. Connectez vous pour avoir accès à votre profil
+      Connectez-vous en tant qu'admin pour avoir accès
     </q-card>
+
+
   </div>
 </template>
 
@@ -29,11 +31,16 @@ export default defineComponent({
   mounted() {
     const token = localStorage.getItem("accessToken");
     axios
-      .get("http://localhost:8080/api/profil/user", {
+      .get("http://localhost:8080/api/profil/admin", {
         headers: { "x-access-token": `${token}` },
       })
       .then((response) => (this.users = response.data))
-      .then((response) => response);
+      .then((response) => response)
+        .catch(error => {
+            if(error.response.status === 403) {
+                console.log('utilisateur simple non autorisé')
+            }
+        })
   },
 
   data() {
@@ -45,7 +52,7 @@ export default defineComponent({
         email: "",
         roles: "",
       },
-      store,
+      store
     };
   },
 });

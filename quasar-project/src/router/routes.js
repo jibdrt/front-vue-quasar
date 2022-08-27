@@ -7,12 +7,7 @@ const routes = [
       { path: '', component: () => import('pages/IndexPage.vue') },
       { path: '/notelist', component: () => import('pages/NoteList.vue') },
       { path: '/userprofil', component: () => import('pages/UserProfil.vue') },
-      { path: '/CategoriesList', component: () => import('pages/CategoriesList.vue') },
-      {
-        name: 'CategoryDetail',
-        path: '/categories/:id',
-        component: () => import('pages/CategoryDetail.vue')
-      },
+      { path: '/adminboard', component: () => import('pages/AdminBoard.vue') },
       {
         name: 'NoteDetail',
         path: '/notelist/:id',

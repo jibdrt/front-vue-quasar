@@ -10,8 +10,11 @@
           
           <div v-if="store.isconnected">
           <q-badge color="green" label="Connecté" />
-          <q-btn flat rounded>
+          <q-btn flat round>
             <q-icon name="account_circle"></q-icon>
+                    <q-tooltip>
+                      Connecté en tant que
+                    </q-tooltip>
           </q-btn>
           </div>
           
@@ -36,8 +39,7 @@
           v-bind="link"
         />-->
 
-
-        <router-link to="/">
+        <router-link to="/" v-if="store.isnotconnected">
 
           <q-item clickable>
             <q-item-section avatar>
@@ -45,11 +47,24 @@
             </q-item-section>
 
             <q-item-section>
-              <q-item-label>Log in</q-item-label>
-              <q-item-label caption>Register and login</q-item-label>
+              <q-item-label>Se connecter</q-item-label>
+              <q-item-label caption>Se connecter / créer un compte</q-item-label>
             </q-item-section>
           </q-item>
 
+        </router-link>
+
+        <router-link to="/AdminBoard" v-if="store.isconnected">
+          <q-item clickable>
+            <q-item-section avatar>
+              <i class="fa-lg fa-solid fa-crown"></i>
+            </q-item-section>
+
+            <q-item-section>
+              <q-item-label>Admin</q-item-label>
+              <q-item-label caption>Accès à l'interface admin</q-item-label>
+            </q-item-section>
+          </q-item>
         </router-link>
 
         <router-link to="/UserProfil">
@@ -60,8 +75,8 @@
             </q-item-section>
 
             <q-item-section>
-              <q-item-label>Profile</q-item-label>
-              <q-item-label caption>Display user informations</q-item-label>
+              <q-item-label>Profil</q-item-label>
+              <q-item-label caption>Profil utilisateur</q-item-label>
             </q-item-section>
           </q-item>
 
@@ -77,7 +92,7 @@
 
             <q-item-section>
               <q-item-label>Notes</q-item-label>
-              <q-item-label caption>Display all notes</q-item-label>
+              <q-item-label caption>Liste des notes</q-item-label>
             </q-item-section>
           </q-item>
 
@@ -154,11 +169,8 @@ export default defineComponent({
         text-decoration: none
 
 
-      .q-item__section--avatar
+      .q-item__section--avatar, .q-item__label:nth-child(1)
         color: #0081ff
-
-      q-item
-        color: #222222
 
 
 </style>

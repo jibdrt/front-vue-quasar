@@ -1,10 +1,11 @@
 import { defineStore } from 'pinia';
 import axios from "axios";
+import { LocalStorage } from 'quasar';
 
 export const useNoteStore = defineStore('notes', {
     state: () => ({
         notes: [],
-        categories: []
+        storedjwt: LocalStorage.getItem('accessToken')
     }),
 
     getters: {
@@ -31,15 +32,13 @@ export const useNoteStore = defineStore('notes', {
                 .then(response => this.notes = response.data)
                 .then((response) => console.log(response));
         },
-        fetchCategories() {
-            axios
-                .get("http://localhost:8080/api/categories")
-                .then(response => this.categories = response.data)
-                .then((response) => console.log(response));
-        },
         createNote(note) {
             axios
-                .post("http://localhost:8080/api/notes", note)
+                .post("http://localhost:8080/api/notes", note, {
+                    headers: {
+                        'x-access-token': this.storedjwt
+                    }
+                })
                 .then((response) => {
                     this.notes.push(response.data);
                     console.log("pushed");
@@ -48,22 +47,21 @@ export const useNoteStore = defineStore('notes', {
                     console.log(error);
                 });
         },
-/*         createCategory(category) {
+        deleteNote(_id) {
             axios
-                .post("http://localhost:8080/api/categories", category)
+                .delete(`http://localhost:8080/api/notes/${_id}`, {
+                    headers: {
+                        "x-access-token": this.storedjwt
+                    },
+                })
                 .then((response) => {
-                    this.categories.push(response.data);
-                    console.log("pushed");
+                    const idx = this.notes.findIndex((g) => g._id === _id);
+                    this.notes.splice(idx, 1);
+                    console.log(response.data);
                 })
                 .catch((error) => {
                     console.log(error);
                 });
-        }, */
-        deleteNote(id) {
-            axios.delete("http://localhost:8080/api/notes/:id").then(() => {
-                const idx = this.notes.findIndex((g) => g.id === id);
-                this.notes.splice(idx, 1);
-            });
         }
     }
 })
