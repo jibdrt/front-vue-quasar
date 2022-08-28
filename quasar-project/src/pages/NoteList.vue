@@ -159,7 +159,6 @@ import axios from "axios";
 /* import addNotePopup from "../components/addNotePopup.vue"; */
 import { useAuthStore } from "stores/stores";
 import { useNoteStore } from "stores/notes";
-import { useQuasar } from "quasar";
 
 export default defineComponent({
   /*   components: { addNotePopup }, */

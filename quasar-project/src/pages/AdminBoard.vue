@@ -1,20 +1,42 @@
 <template>
   <div>
-    <q-card class="my-card" v-if="store.isconnected">
-      <div v-for="user in users" :key="user">
-        <q-card-section class="text-white bg-blue-4">
-          <div class="text-h6">{{ user.username }}</div>
-          <div class="text-subtitle2">{{ user.email }}</div>
-        </q-card-section>
-        <q-separator />
-      </div>
-    </q-card>
+    <!--     <q-table  class="table-grid">
+      <q-tr v-for="user in store.getUsers" :key="user">
+        <q-td>
+          {{ user.username }}
+        </q-td>
+        <q-td>
+          {{ user.email }}
+        </q-td>
+        <q-td>
+          <q-btn @click="deleteUser(user._id)" flat rounded>
+            <i class="fa fa-lg fa-trash"></i>
+          </q-btn>
+        </q-td>
+      </q-tr>
+    </q-table> -->
+
+    <q-list v-if="store.isconnected" bordered separator class="col">
+      <q-item clickable v-ripple v-for="user in store.getUsers" :key="user">
+        <q-item-section avatar>
+          <q-icon name="account_circle" />
+        </q-item-section>
+        <q-item-section>{{ user.username }}</q-item-section>
+        <q-item-section>{{ user.email }}</q-item-section>
+        <!-- <q-item-section>{{ user.roles }}</q-item-section> -->
+        <q-item-section>
+          <div>
+            <q-btn @click="deleteUser(user._id)" flat rounded>
+              <i class="fa fa-lg fa-trash"></i>
+            </q-btn>
+          </div>
+        </q-item-section>
+      </q-item>
+    </q-list>
 
     <q-card v-if="store.isnotconnected" class="q-pa-xl q-ma-xl">
       Connectez-vous en tant qu'admin pour avoir accès
     </q-card>
-
-
   </div>
 </template>
 
@@ -22,26 +44,10 @@
 
 <script>
 import { defineComponent } from "vue";
-import axios from "axios";
 import { useAuthStore } from "stores/stores";
 
 export default defineComponent({
   name: "UserProfil",
-
-  mounted() {
-    const token = localStorage.getItem("accessToken");
-    axios
-      .get("http://localhost:8080/api/profil/admin", {
-        headers: { "x-access-token": `${token}` },
-      })
-      .then((response) => (this.users = response.data))
-      .then((response) => response)
-        .catch(error => {
-            if(error.response.status === 403) {
-                console.log('utilisateur simple non autorisé')
-            }
-        })
-  },
 
   data() {
     const store = useAuthStore();
@@ -52,8 +58,23 @@ export default defineComponent({
         email: "",
         roles: "",
       },
-      store
+      store,
     };
+  },
+  methods: {
+    deleteUser(_id) {
+      this.store.deleteUser(_id);
+    },
   },
 });
 </script>
+
+<style scoped>
+.table-grid {
+  display: flex;
+}
+
+.fa-trash {
+  color: red;
+}
+</style>
