@@ -1,7 +1,14 @@
+<style scoped>
+
+
+
+</style>
+
+
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
-      <q-toolbar>
+  <q-layout class="deep-purple-9" view="lHh Lpr lFf">
+    <q-header class="deep-purple-9" elevated>
+      <q-toolbar class="bg-deep-purple-9" >
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title>
@@ -10,12 +17,11 @@
           
           <div v-if="store.isconnected">
           <q-badge color="green" label="Connecté" />
+          <router-link to="/UserProfil">
           <q-btn flat round>
-            <q-icon name="account_circle"></q-icon>
-                    <q-tooltip>
-                      Connecté en tant que
-                    </q-tooltip>
+            <q-icon class="badge" name="account_circle"></q-icon>
           </q-btn>
+          </router-link>
           </div>
           
           <q-badge v-if="store.isnotconnected" color="red" label="Déconnecté" />
@@ -163,14 +169,21 @@ export default defineComponent({
 </script>
 
 
-<style lang="sass" scoped>
+<style scoped>
 
-      a
+      a{
         text-decoration: none
+      }
 
-
-      .q-item__section--avatar, .q-item__label:nth-child(1)
+      .q-item__section--avatar, .q-item__label:nth-child(1){
         color: #0081ff
+      }
 
+      .badge{
+        color: white
+      }
 
+      .badge:focused{
+        color: black;
+      }
 </style>

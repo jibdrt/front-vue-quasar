@@ -23,6 +23,18 @@
         </q-item-section>
         <q-item-section>{{ user.username }}</q-item-section>
         <q-item-section>{{ user.email }}</q-item-section>
+
+        <q-item-section> {{ user.notes.length }} notes </q-item-section>
+        <q-item-section>
+          <router-link
+            :to="`/adminboard/${user._id}`"
+            style="text-decoration: none; color: inherit"
+          >
+            <q-btn flat rounded>
+              <q-icon name="edit"></q-icon>
+            </q-btn>
+          </router-link>
+        </q-item-section>
         <!-- <q-item-section>{{ user.roles }}</q-item-section> -->
         <q-item-section>
           <div>

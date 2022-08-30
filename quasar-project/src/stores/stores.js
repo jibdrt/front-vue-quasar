@@ -5,6 +5,10 @@ import axios from 'axios';
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     users: [],
+    user: {
+      username: '',
+      email: '',
+    },
     jwt: LocalStorage.getItem('accessToken')
   }),
 
@@ -20,9 +24,12 @@ export const useAuthStore = defineStore('auth', {
         this.fetchUsers();
       }
       return state.users;
+    },
+    getThisUser(state) {
+      this.fetchThisUser(this.user);
+      return state.username;
     }
   },
-
   actions: {
     login(token) {
       this.jwt = token;
@@ -34,10 +41,11 @@ export const useAuthStore = defineStore('auth', {
     },
 
     fetchUsers() {
-      const token = this.jwt;
       axios
         .get("http://localhost:8080/api/profil/admin", {
-          headers: { "x-access-token": `${token}` },
+          headers: {
+            "x-access-token": this.jwt
+          },
         })
         .then((response) => (this.users = response.data))
         .then((response) => response)
@@ -46,6 +54,16 @@ export const useAuthStore = defineStore('auth', {
             console.log("utilisateur simple non autorisé");
           }
         });
+    },
+    fetchThisUser() {
+      axios
+        .get(`http://localhost:8080/api/profil/all/${this.id}`, {
+          headers: {
+            "x-access-token": this.jwt
+          }
+        })
+        .then((response) => (this.user = response.data))
+        .then((response) => console.log(response));
     },
 
     deleteUser(_id) {

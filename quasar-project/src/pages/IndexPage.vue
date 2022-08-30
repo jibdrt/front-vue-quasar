@@ -1,38 +1,58 @@
 
 <template>
   <q-page class="flex flex-center">
-    <div square>
+    <q-card square  class="shadow-24" style="">
+      <q-card-section class="bg-deep-purple-8">
+        <h4 class="text-h5 text-white q-my-md">Connexion</h4>
+        <div
+          class="absolute-bottom-right q-pr-md"
+          style="transform: translateY(50%)"
+        ></div>
+      </q-card-section>
       <q-card-section>
-        <q-form class="q-gutter-md">
+        <q-form class="q-px-sm q-pt-xl q-pb-lg">
           <q-input
             square
-            filled
+            
             clearable
             v-model="username"
-            label="username"
+            label="Username"
             autocomplete="on"
-          />
+          >
+            <template v-slot:prepend>
+              <q-icon name="person" />
+            </template>
+          </q-input>
           <q-input
             square
-            filled
+            
             clearable
             v-model="password"
             type="password"
-            label="password"
+            label="Password"
             autocomplete="on"
-          />
+          >
+            <template v-slot:prepend>
+              <q-icon name="lock" />
+            </template>
+          </q-input>
         </q-form>
       </q-card-section>
-      <q-card-actions @click="showDefault" class="q-px-md">
+      <q-card-actions class="q-px-md">
         <q-btn
+          unelevated
           @click="login()"
-          color="light-blue"
           size="lg"
-          class="full-width"
+          class="full-width bg-deep-purple-8 text-white"
           label="Login"
         />
       </q-card-actions>
-    </div>
+      <q-card-section class="text-center q-pa-sm">
+        <router-link to="/register">
+          <p>Créer un compte</p>
+        </router-link>
+      </q-card-section>
+    </q-card>
   </q-page>
 </template>
 
@@ -41,7 +61,6 @@ import axios from "axios";
 import { defineComponent } from "vue";
 import { useAuthStore } from "stores/stores";
 
-
 export default defineComponent({
   name: "IndexPage",
   data() {
@@ -49,7 +68,7 @@ export default defineComponent({
     return {
       username: "",
       password: "",
-      store
+      store,
     };
   },
 

@@ -5,9 +5,13 @@ const routes = [
     component: () => import('layouts/MainLayout.vue'),
     children: [
       { path: '', component: () => import('pages/IndexPage.vue') },
-      { path: '/notelist', component: () => import('pages/NoteList.vue') },
+      { path: '/register', component: () => import('pages/RegisterForm.vue')},
+      { path: '/notelist', component: () => import('pages/NoteList.vue' )},
       { path: '/userprofil', component: () => import('pages/UserProfil.vue') },
       { path: '/adminboard', component: () => import('pages/AdminBoard.vue') },
+      { name: 'AdminUserNotes',
+        path: '/adminboard/:id',
+        component: () => import('pages/AdminUserNotes.vue') },
       {
         name: 'NoteDetail',
         path: '/notelist/:id',

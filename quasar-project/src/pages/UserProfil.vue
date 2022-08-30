@@ -4,8 +4,9 @@
       <q-item-section v-for="user in users" :key="user">
         <q-card-section class="bg-purple text-white">
           <div class="text-h6">Connecté en tant que : {{ user.username }}</div>
-          <div class="text-subtitle2">Adresse email de contact : {{ user.email }}</div>
-          <div class="text-subtitle2">role : {{ user.roles }}</div>
+          <div class="text-h6">mail : {{ user.email }}</div>
+          <div class="text-h6">role : {{ user.roles }}</div>
+          <div class="text-h6">notes postées : {{ user.notes.length }}</div>
         </q-card-section>
       </q-item-section>
     </q-card>
@@ -27,7 +28,7 @@ export default defineComponent({
   name: "UserProfil",
 
   mounted() {
-    const token = localStorage.getItem("accessToken");
+    const token = this.store.jwt;
     axios
       .get("http://localhost:8080/api/profil/user", {
         headers: { "x-access-token": `${token}` },
@@ -44,6 +45,7 @@ export default defineComponent({
         username: "",
         email: "",
         roles: "",
+        notes: []
       },
       store,
     };

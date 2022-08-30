@@ -2,12 +2,42 @@
 
 
 <template>
-  <div style="text-align: center">
+  <div style="text-aq-card-sectiongn: center">
     <q-btn @click="$router.go(-1)">BACK</q-btn>
-    <h2>note detail</h2>
 
-    {{ $data.note }}
-
+    <q-page class="row justify-center items-center">
+      <div class="column">
+        <div class="row">
+          <q-card square class="shadow-24">
+            <q-card-section class="bg-blue-5">
+              <h4 class="text-h5 text-white q-my-md">Note detail</h4>
+              <div
+                class="absolute-bottom-right q-pr-md"
+                style="transform: translateY(50%)"
+              ></div>
+            </q-card-section>
+            <q-card-section class="text-h6" v-for="field in note" :key="field.title">
+              {{ field.title }}
+            </q-card-section>
+            <q-card-section v-for="field in note" :key="field.content">
+              {{ field.content }}
+            </q-card-section>
+            <q-card-section v-for="field in note" :key="field.deadline">
+              deadline : {{ field.deadline }}
+            </q-card-section>
+            <q-card-section v-for="field in note" :key="field.creator">
+              creator id : {{ field.creator }}
+            </q-card-section>
+            <q-card-section v-for="field in note" :key="field.created_at">
+              créée le : {{ field.created_at }}
+            </q-card-section>
+            <q-card-section v-for="field in note" :key="field.updated_at">
+              mise à jour : {{ field.updated_at }}
+            </q-card-section>
+          </q-card>
+        </div>
+      </div>
+    </q-page>
   </div>
 </template>
 
@@ -19,12 +49,7 @@ export default {
 
   mounted() {
     this.id = this.$route.params.id;
-    /*     this.title = this.note.title;
-    this.content = this.note.content;
-    this.deadline = this.note.deadline;
-    this.creator = this.note.creator;
-    this.created = this.note.created_at;
-    this.maj = this.note.updated_at; */
+
     axios
       .get(`http://localhost:8080/api/notes/${this.id}`)
       .then((response) => (this.note = response.data))
@@ -46,13 +71,12 @@ export default {
   },
 
   data() {
-    /*     const notestore = useNoteStore(); */
     return {
-      note: {},
       id: this.$route.params.id,
-      title: this.title,
-      content: this.content,
-      deadline: this.deadline
+      note: {},
+      title: "",
+      content: "",
+      deadline: "",
     };
   },
 };
