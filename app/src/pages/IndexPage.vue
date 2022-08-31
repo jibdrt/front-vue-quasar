@@ -2,7 +2,7 @@
 <template>
   <q-page class="flex flex-center">
     <q-card square  class="shadow-24" style="">
-      <q-card-section class="bg-deep-purple-8">
+      <q-card-section class="bg-deep-purple-7">
         <h4 class="text-h5 text-white q-my-md">Connexion</h4>
         <div
           class="absolute-bottom-right q-pr-md"
@@ -11,6 +11,7 @@
       </q-card-section>
       <q-card-section>
         <q-form class="q-px-sm q-pt-xl q-pb-lg">
+          <div style="height: 56px !important;"></div>
           <q-input
             square
             
@@ -43,7 +44,7 @@
           unelevated
           @click="login()"
           size="lg"
-          class="full-width bg-deep-purple-8 text-white"
+          class="full-width bg-deep-purple-7 text-white"
           label="Login"
         />
       </q-card-actions>
