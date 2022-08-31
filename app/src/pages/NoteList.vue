@@ -7,7 +7,7 @@
     >
       <q-btn
         v-if="store.isconnected"
-        @click="isclicked = !isclicked"
+        @click="showModal = true"
         class="q-pa-md"
         color="green"
         rounded
@@ -54,7 +54,7 @@
         </div>
       </q-card>
     </div>
-    <addNotePopup :toggle="isclicked" />
+    <addNotePopup :active="showModal" @close="showModal = false" />
   </q-page>
 </template>
 
@@ -138,7 +138,7 @@ export default defineComponent({
         content: "",
         deadline: "",
       },
-      isclicked: false,
+      showModal: false,
       store,
       notestore,
     };
@@ -166,6 +166,7 @@ export default defineComponent({
           console.log(error);
         });
     },
+
   },
 });
 </script>
