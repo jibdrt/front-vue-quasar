@@ -23,6 +23,9 @@
                   <q-icon name="email" />
                 </template>
               </q-input>
+              <span class="failed-notify" v-if="v$.email.$error">
+                {{ v$.email.$errors[0].$message }}
+              </span>
               <q-input
                 square
                 clearable
@@ -33,7 +36,11 @@
                 <template v-slot:prepend>
                   <q-icon name="person" />
                 </template>
+                
               </q-input>
+              <span class="failed-notify" v-if="v$.username.$error">
+                {{ v$.username.$errors[0].$message }}
+              </span>
               <!-- <q-card-section v-if="v$.minLength.$error">{{ v$.minLength.$errors[0].$message }}</q-card-section> -->
               <q-input
                 square
@@ -46,7 +53,12 @@
                   <q-icon name="lock" />
                 </template>
               </q-input>
-              <!--               <q-input
+              <span class="failed-notify" v-if="v$.password.$error">
+                {{ v$.password.$errors[0].$message }}
+              </span>
+              <!-- //////////////////////////////todo confirm password -->
+
+              <!--<q-input
                 square
                 clearable
                 v-model="state.password.confirm"
@@ -57,6 +69,7 @@
                   <q-icon name="lock" />
                 </template>
               </q-input> -->
+
             </q-form>
           </q-card-section>
           <q-card-actions class="q-px-lg">
@@ -71,14 +84,14 @@
           </q-card-actions>
           <q-card-section class="text-center q-pa-sm">
             <router-link to="/">
-              <p class="text-grey-6">Return to login</p>
+              <p class="text-grey-6">Se connecter</p>
             </router-link>
           </q-card-section>
         </q-card>
       </div>
     </div>
-    <div class="failed-notify" v-if="v$.email.$error">{{ v$.email.$errors[0].$message }}</div>
-    <div class="failed-notify" v-if="v$.email.$error">{{ v$.email.$errors[0].$message }}</div>
+    
+    
   </q-page>
 </template>
 
@@ -143,7 +156,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.failed-notify {
+/* .failed-notify {
   padding: 0 16px;
   min-height: 48px;
   color: white;
@@ -154,5 +167,5 @@ export default defineComponent({
   bottom: 32px;
   display: flex;
   align-items: center;
-}
+} */
 </style>

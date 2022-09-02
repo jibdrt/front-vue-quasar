@@ -2,25 +2,41 @@
 
 
 <template>
-  <div style="text-aq-card-sectiongn: center">
+  <div>
     <q-btn @click="$router.go(-1)">BACK</q-btn>
 
     <q-page class="row justify-center items-center">
       <div class="column">
         <div class="row">
           <q-card square class="shadow-24">
-            <q-card-section class="bg-blue-5">
-              <h4 class="text-h5 text-white q-my-md">Note detail</h4>
-              <div
-                class="absolute-bottom-right q-pr-md"
-                style="transform: translateY(50%)"
-              ></div>
+            <q-card-section class="bg-deep-purple-7">
+              <h4 class="text-h5 text-white q-my-md" v-for="field in note"
+              :key="field.title">{{ field.title }}</h4>
             </q-card-section>
-            <q-card-section class="text-h6" v-for="field in note" :key="field.title">
-              {{ field.title }}
+            <q-card-section
+              class="text-h6"
+              v-for="field in note"
+              :key="field.color"
+            >
+              <q-chip
+                :color="`${field.color}`"
+                text-color="white"
+                icon="warning"
+                :label="`Priorité`"
+              />
             </q-card-section>
-            <q-card-section v-for="field in note" :key="field.content">
-              {{ field.content }}
+<!--             <q-card-section
+              class="text-h6"
+              v-for="field in note"
+              :key="field.title"
+            >
+              Titre : {{ field.title }}
+            </q-card-section> -->
+            <q-card-section
+              v-for="field in note"
+              :key="field.content"
+              v-html="field.content"
+            >
             </q-card-section>
             <q-card-section v-for="field in note" :key="field.deadline">
               deadline : {{ field.deadline }}
@@ -81,3 +97,10 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.q-chip {
+  position: absolute;
+  top: -50%;
+}
+</style>

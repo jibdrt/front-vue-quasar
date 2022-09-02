@@ -4,10 +4,6 @@
     <q-card square  class="shadow-24" style="">
       <q-card-section class="bg-deep-purple-7">
         <h4 class="text-h5 text-white q-my-md">Connexion</h4>
-        <div
-          class="absolute-bottom-right q-pr-md"
-          style="transform: translateY(50%)"
-        ></div>
       </q-card-section>
       <q-card-section>
         <q-form class="q-px-sm q-pt-xl q-pb-lg">
@@ -45,7 +41,7 @@
           @click="login()"
           size="lg"
           class="full-width bg-deep-purple-7 text-white"
-          label="Login"
+          label="Connexion"
         />
       </q-card-actions>
       <q-card-section class="text-center q-pa-sm">

@@ -9,7 +9,7 @@
         v-if="store.isconnected"
         @click="showModal = true"
         class="q-pa-md"
-        color="green"
+        color="deep-purple-7"
         rounded
       >
         <q-icon name="add" />
@@ -20,24 +20,40 @@
       <q-card
         v-for="note in notestore.getNotes"
         v-bind:key="note"
-        class="card flex"
+        class="card flex notecard"
       >
         <q-item-section>
-          <q-item>{{ note.deadline }} </q-item>
-
+          <div class="row">
           <q-item>
+            <q-chip
+              :color="`${note.color}`"
+              text-color="white"
+              icon="warning"
+              :label="`Priorité`"
+            />
+          </q-item>
+          <q-item style="align-items:center;">
+            <span style="font-weight: bold;">Deadline&nbsp;</span>
+            {{ moment(`${note.deadline}`).format("ddd DD MMM YYYY")}},
+            {{ moment(`${note.deadline}`).fromNow() }}
+          </q-item>
+          </div>
+
+
+
+          <q-item style="font-weight: bold">
             {{ note.title }}
           </q-item>
 
-          <q-item>
-            {{ note.content }}
-          </q-item>
+          <q-item v-html="note.content" class="notecontent"> </q-item>
+          
+          <q-item v-for="field in creator" :key="field.username"> Créée par {{ creator.username }} </q-item>
         </q-item-section>
 
         <div class="btn-container">
           <router-link :to="`/notelist/${note._id}`">
             <q-btn class="btn" color="primary" flat rounded>
-              <i class="fa fa-xl fa-info-circle"></i>
+              <q-icon name="more_vert" color="deep-purple-7" size="32px" />
             </q-btn>
           </router-link>
 
@@ -49,7 +65,7 @@
             flat
             rounded
           >
-            <i class="fa fa-trash fa-xl"></i>
+            <q-icon name="delete" color="deep-purple-7" size="32px" />
           </q-btn>
         </div>
       </q-card>
@@ -60,10 +76,6 @@
 
 
 <style scoped>
-.card {
-  height: 192px;
-}
-
 .btn-container {
   width: 80px;
   margin-top: 32px;
@@ -79,25 +91,21 @@
   height: 48px !important;
 }
 
-ul {
-  list-style: none;
-}
-
-.btn {
-  padding: 1px;
-  margin: 2px;
-  height: 24px;
-}
-
-.datepicker-container {
-  display: flex;
-  margin: 0 20px 0 20px;
-}
-
 .q-form {
   background: white;
   padding: 18px;
-  z-index: 9999;
+  z-index: 999;
+}
+
+.notecard {
+  height: auto !important;
+  padding: 20px 0px 20px 0px;
+  margin: 2px 0px 1px 0px;
+}
+
+.notecontent {
+  display: block;
+  word-break: break-all;
 }
 </style>
 
@@ -106,12 +114,18 @@ ul {
 import { defineComponent } from "vue";
 import axios from "axios";
 import addNotePopup from "../components/addNotePopup.vue";
+import moment from "moment";
+import 'moment/locale/fr'
 import { useAuthStore } from "stores/stores";
 import { useNoteStore } from "stores/notes";
 
 export default defineComponent({
   components: { addNotePopup },
   name: "NoteList",
+
+  created: function () {
+    this.moment = moment;
+  },
 
   data() {
     const store = useAuthStore();
@@ -137,6 +151,10 @@ export default defineComponent({
         title: "",
         content: "",
         deadline: "",
+        color: "",
+        creator: {
+          username: "",
+        }
       },
       showModal: false,
       store,
@@ -166,7 +184,6 @@ export default defineComponent({
           console.log(error);
         });
     },
-
   },
 });
 </script>

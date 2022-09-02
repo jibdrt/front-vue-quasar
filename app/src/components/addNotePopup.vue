@@ -8,26 +8,19 @@
     <div class="q-card">
       <q-form>
         <div class="q-pa-md q-gutter-sm">
-          <q-toolbar>
-            <div class="row text-h5">Ajouter une nouvelle note</div>
-            <q-btn @click="$emit('close')" flat rounded
-              ><i class="fas fa-circle fa-window-close" style="color: red"></i
-            ></q-btn>
+          <q-toolbar style="display: flex; justify-content: space-between">
+            <div class="row text-h5">Ajouter une note</div>
+            <q-btn class="q-pa-sm" color="red" @click="$emit('close')"
+              ><q-icon name="close" color="white"
+            /></q-btn>
           </q-toolbar>
           <hr class="q-separator" />
           <q-input clearable v-model="title" label="Titre de votre note" />
-          <q-input
-            v-model="content"
-            clearable
-            type="textarea"
-            color="primary"
-            label="Ajoutez du contenu"
-          />
+          <q-editor v-model="content" label="Ajoutez du contenu" />
         </div>
-
         <q-card-section class="q-item-section">
           <q-btn flat outline>
-            <i class="fas fa-calendar-alt"></i>
+            <q-icon name="event" />
             <q-popup-proxy transition-show="scale" transition-hide="scale">
               <q-date v-model="deadline">
                 <div class="row items-center justify-end q-gutter-sm">
@@ -41,12 +34,21 @@
           {{ $data.deadline }}
         </q-card-section>
         <q-card-section>
-          <q-btn class="q-pa-sm" rounded>
-            <i
-              @click="createNote()"
-              style="color: green; font-size: 32px"
-              class="fas fa-check"
-            ></i>
+          <div class="q-gutter-sm">
+            <q-item class="q-pa-sm">Priorité</q-item>
+            <q-radio v-model="color" val="green" label="Faible" color="green" />
+            <q-radio
+              v-model="color"
+              val="orange"
+              label="Modérée"
+              color="orange"
+            />
+            <q-radio v-model="color" val="red" label="Haute" color="red" />
+          </div>
+        </q-card-section>
+        <q-card-section>
+          <q-btn class="q-pa-sm" rounded color="green">
+            <q-icon name="save" @click="createNote()" color="white" />
           </q-btn>
         </q-card-section>
       </q-form>
@@ -65,8 +67,8 @@ export default {
   props: {
     active: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
   },
 
   data() {
@@ -77,6 +79,7 @@ export default {
       title: "",
       content: "",
       deadline: "",
+      color: "",
       notestore,
     };
   },
@@ -86,6 +89,7 @@ export default {
         title: this.title,
         content: this.content,
         deadline: this.deadline,
+        color: this.color,
       });
     },
   },
@@ -95,4 +99,8 @@ export default {
 
 
 <style scoped>
+.q-chip {
+  position: absolute;
+  top: -50%;
+}
 </style>
