@@ -62,7 +62,9 @@
 import { useNoteStore } from "../stores/notes";
 
 export default {
-  name: "addNotePopup",
+  name: "AddNotePopup",
+
+  emits: ['close'],
 
   props: {
     active: {

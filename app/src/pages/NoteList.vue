@@ -19,35 +19,43 @@
     <div class="col">
       <q-card
         v-for="note in notestore.getNotes"
-        v-bind:key="note"
+        :key="note._id"
         class="card flex notecard"
       >
         <q-item-section>
           <div class="row">
-          <q-item>
-            <q-chip
-              :color="`${note.color}`"
-              text-color="white"
-              icon="warning"
-              :label="`Priorité`"
-            />
-          </q-item>
-          <q-item style="align-items:center;">
-            <span style="font-weight: bold;">Deadline&nbsp;</span>
-            {{ moment(`${note.deadline}`).format("ddd DD MMM YYYY")}},
-            {{ moment(`${note.deadline}`).fromNow() }}
-          </q-item>
+            <q-item>
+              <q-chip
+                :color="`${note.color}`"
+                text-color="white"
+                icon="warning"
+                :label="`Priorité`"
+              />
+            </q-item>
+            <q-item style="align-items: center">
+              <span style="font-weight: bold">Deadline &nbsp;</span>
+              le
+              {{ moment(`${note.deadline}`).format("ddd DD MMM YYYY") }},
+              {{ moment(`${note.deadline}`).fromNow() }}
+            </q-item>
           </div>
-
-
 
           <q-item style="font-weight: bold">
             {{ note.title }}
           </q-item>
 
-          <q-item v-html="note.content" class="notecontent"> </q-item>
-          
-          <q-item v-for="field in creator" :key="field.username"> Créée par {{ creator.username }} </q-item>
+          <q-item v-html="note.content" class="notecontent"></q-item>
+
+          <q-item> Postée par {{ note.creator.username }}</q-item>
+
+          <q-item-section>
+            <p v-if="note.participants.length > 0">Participants</p>
+            <q-item v-for="participant in note.participants" :key="participant">
+              <div v-for="username in participant" :key="username">
+                {{ username }}
+              </div>
+            </q-item>
+          </q-item-section>
         </q-item-section>
 
         <div class="btn-container">
@@ -59,7 +67,7 @@
 
           <q-btn
             v-if="store.isconnected"
-            @click="deleteNote(note._id)"
+            @click="confirmDelete(note._id)"
             class="btn"
             color="red"
             flat
@@ -70,7 +78,7 @@
         </div>
       </q-card>
     </div>
-    <addNotePopup :active="showModal" @close="showModal = false" />
+    <AddNotePopup :active="showModal" @close="showModal = false" />
   </q-page>
 </template>
 
@@ -112,15 +120,16 @@
 
 <script>
 import { defineComponent } from "vue";
-import axios from "axios";
-import addNotePopup from "../components/addNotePopup.vue";
-import moment from "moment";
-import 'moment/locale/fr'
 import { useAuthStore } from "stores/stores";
 import { useNoteStore } from "stores/notes";
+/* import { useQuasar } from "quasar"; */
+import axios from "axios";
+import AddNotePopup from "../components/AddNotePopup";
+import moment from "moment";
+import "moment/locale/fr";
 
 export default defineComponent({
-  components: { addNotePopup },
+  components: { AddNotePopup },
   name: "NoteList",
 
   created: function () {
@@ -130,20 +139,6 @@ export default defineComponent({
   data() {
     const store = useAuthStore();
     const notestore = useNoteStore();
-    /*     const $q = useQuasar();
-
-    function confirmDeletion() {
-      $q.dialog({
-        title: 'Confirm',
-        message: 'Would you like to confirm the deletion',
-        cancel: true,
-        persistent: true
-      }).onOk(() => {
-        console.log('>>>> OK')
-      }).onCancel(() => {
-        console.log('>>>> Cancel')
-      })
-    } */
 
     return {
       notes: [],
@@ -152,9 +147,8 @@ export default defineComponent({
         content: "",
         deadline: "",
         color: "",
-        creator: {
-          username: "",
-        }
+        creator: "",
+        participants: [],
       },
       showModal: false,
       store,
@@ -163,6 +157,19 @@ export default defineComponent({
   },
 
   methods: {
+    confirmDelete(_id) {
+      quasar
+        .dialog({
+          title: "Confirm",
+          message: "Would you like to confirm deletion?",
+          cancel: true,
+          persistent: true,
+        })
+        .onOk(() => {
+          this.deleteNote(_id);
+        });
+    },
+
     deleteNote(_id) {
       this.notestore.deleteNote(_id);
     },

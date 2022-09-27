@@ -5,10 +5,6 @@
         <q-card square class="shadow-24" style="">
           <q-card-section class="bg-deep-purple-7">
             <h4 class="text-h5 text-white q-my-md">Créer un compte</h4>
-            <div
-              class="absolute-bottom-right q-pr-md"
-              style="transform: translateY(50%)"
-            ></div>
           </q-card-section>
           <q-card-section>
             <q-form class="q-px-sm q-pt-xl q-pb-lg">
@@ -19,12 +15,12 @@
                 type="email"
                 label="Email"
               >
-                <template v-slot:prepend>
+                <template #preprend>
                   <q-icon name="email" />
                 </template>
               </q-input>
               <span class="failed-notify" v-if="v$.email.$error">
-                {{ v$.email.$errors[0].$message }}
+                {{ validation.email.required.$message }}
               </span>
               <q-input
                 square
@@ -33,10 +29,9 @@
                 type="username"
                 label="Username"
               >
-                <template v-slot:prepend>
+                <template #preprend>
                   <q-icon name="person" />
                 </template>
-                
               </q-input>
               <span class="failed-notify" v-if="v$.username.$error">
                 {{ v$.username.$errors[0].$message }}
@@ -49,7 +44,7 @@
                 type="password"
                 label="Password"
               >
-                <template v-slot:prepend>
+                <template #preprend>
                   <q-icon name="lock" />
                 </template>
               </q-input>
@@ -65,11 +60,10 @@
                 type="password"
                 label="confirm"
               >
-                <template v-slot:prepend>
+                <template #preprend>
                   <q-icon name="lock" />
                 </template>
               </q-input> -->
-
             </q-form>
           </q-card-section>
           <q-card-actions class="q-px-lg">
@@ -90,8 +84,6 @@
         </q-card>
       </div>
     </div>
-    
-    
   </q-page>
 </template>
 
@@ -99,7 +91,7 @@
 import { defineComponent } from "vue";
 import axios from "axios";
 import useValidate from "@vuelidate/core";
-import { required, email, minLength } from "@vuelidate/validators";
+import { required, email, minLength, helpers } from "@vuelidate/validators";
 import { reactive, computed } from "vue";
 
 export default defineComponent({
@@ -119,11 +111,25 @@ export default defineComponent({
       };
     });
 
+    const validation = {
+      email: {
+        required: helpers.withMessage(
+          "Le champ email ne peut pas être vide",
+          required
+        ),
+        email: helpers.withMessage(
+          "L'adresse doit être une adresse email valide",
+          email
+        ),
+      },
+    };
+
     const v$ = useValidate(rules, state);
 
     return {
       state,
       v$,
+      validation,
     };
   },
   methods: {
@@ -156,16 +162,7 @@ export default defineComponent({
 </script>
 
 <style scoped>
-/* .failed-notify {
-  padding: 0 16px;
-  min-height: 48px;
-  color: white;
-  background: #f44336 !important;
-  box-shadow: 0 1px 5px #0003, 0 2px 2px #00000024, 0 3px 1px -2px #0000001f;
-  border-radius: 4px;
-  position: absolute;
-  bottom: 32px;
-  display: flex;
-  align-items: center;
-} */
+.q-card {
+  width: 300px;
+}
 </style>

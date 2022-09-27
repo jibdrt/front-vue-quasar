@@ -10,8 +10,13 @@
         <div class="row">
           <q-card square class="shadow-24">
             <q-card-section class="bg-deep-purple-7">
-              <h4 class="text-h5 text-white q-my-md" v-for="field in note"
-              :key="field.title">{{ field.title }}</h4>
+              <h4
+                class="text-h5 text-white q-my-md"
+                v-for="field in note"
+                :key="field.title"
+              >
+                {{ field.title }}
+              </h4>
             </q-card-section>
             <q-card-section
               class="text-h6"
@@ -25,7 +30,7 @@
                 :label="`Priorité`"
               />
             </q-card-section>
-<!--             <q-card-section
+            <!--             <q-card-section
               class="text-h6"
               v-for="field in note"
               :key="field.title"

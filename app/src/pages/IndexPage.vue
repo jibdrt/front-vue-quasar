@@ -1,7 +1,7 @@
 
 <template>
   <q-page class="flex flex-center">
-    <q-card square  class="shadow-24" style="">
+    <q-card square class="shadow-24">
       <q-card-section class="bg-deep-purple-7">
         <h4 class="text-h5 text-white q-my-md">Connexion</h4>
       </q-card-section>
@@ -16,7 +16,7 @@
             label="Username"
             autocomplete="on"
           >
-            <template v-slot:prepend>
+            <template #preprend>
               <q-icon name="person" />
             </template>
           </q-input>
@@ -29,7 +29,7 @@
             label="Password"
             autocomplete="on"
           >
-            <template v-slot:prepend>
+            <template #preprend>
               <q-icon name="lock" />
             </template>
           </q-input>
@@ -89,5 +89,11 @@ export default defineComponent({
   },
 });
 </script>
+
+<style scoped>
+.q-card{
+  width: 300px;
+}
+</style>
 
 

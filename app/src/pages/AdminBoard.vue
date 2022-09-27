@@ -23,8 +23,8 @@
         </q-item-section>
         <q-item-section>{{ user.username }}</q-item-section>
         <q-item-section>{{ user.email }}</q-item-section>
-
-        <q-item-section> {{ user.notes.length }} notes </q-item-section>
+        <q-item-section></q-item-section>
+        <!-- <q-item-section> {{ user.notes.length }} notes </q-item-section> -->
         <q-item-section>
           <router-link
             :to="`/adminboard/${user._id}`"

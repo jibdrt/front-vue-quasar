@@ -6,7 +6,7 @@
           <div class="text-h6">Connecté en tant que : {{ user.username }}</div>
           <div class="text-h6">mail : {{ user.email }}</div>
           <div class="text-h6">role : {{ user.roles }}</div>
-          <div class="text-h6">notes postées : {{ user.notes.length }}</div>
+          <!-- <div class="text-h6">notes postées : {{ user.notes.length }}</div> -->
         </q-card-section>
       </q-item-section>
     </q-card>
