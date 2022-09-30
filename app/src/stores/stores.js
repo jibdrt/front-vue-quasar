@@ -5,10 +5,7 @@ import axios from 'axios';
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     users: [],
-    user: {
-      username: '',
-      email: '',
-    },
+    user: [],
     jwt: LocalStorage.getItem('accessToken')
   }),
 
@@ -26,10 +23,13 @@ export const useAuthStore = defineStore('auth', {
       return state.users;
     },
     getThisUser(state) {
-      this.fetchThisUser(this.user);
-      return state.username;
+      if (state.user.length == 0) {
+      this.fetchThisUser();
+      }
+      return state.user;
     }
   },
+
   actions: {
     login(token) {
       this.jwt = token;
@@ -55,15 +55,46 @@ export const useAuthStore = defineStore('auth', {
           }
         });
     },
+
     fetchThisUser() {
       axios
-        .get(`http://localhost:8080/api/profil/all/${this.id}`, {
+        .get('http://localhost:8080/api/profil/user', {
           headers: {
             "x-access-token": this.jwt
           }
         })
         .then((response) => (this.user = response.data))
-        .then((response) => console.log(response));
+        .then((response) => response)
+        .catch((error) => {
+          console.log(error);
+        })
+    },
+
+    createUser(user) {
+      axios
+        .post('http://localhost:8080/api/auth/signup', user)
+        .then((response) => {
+          this.users.push(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+    },
+
+    changePassword() {
+      axios
+        .patch(`http://localhost:8080/api/profil/user/changepassword`, {
+          headers: {
+            "x-access-token": this.jwt
+          },
+          currentPassword: this.currentPassword,
+          newPassword: this.newPassword,
+          confirmNewPassword: this.confirmNewPassword
+        })
+        .then((response) => response.data)
+        .catch((error) => {
+          console.log(error);
+        });
     },
 
     deleteUser(_id) {

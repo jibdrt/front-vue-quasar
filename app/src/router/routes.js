@@ -8,6 +8,8 @@ const routes = [
       { path: '/register', component: () => import('pages/RegisterForm.vue')},
       { path: '/notelist', component: () => import('pages/NoteList.vue' )},
       { path: '/userprofil', component: () => import('pages/UserProfil.vue') },
+      { path: '/changepassword', component: () => import('pages/ChangePassword.vue') },
+      { path: '/editprofile', component: () => import('pages/ChangeCredent.vue') },
       { path: '/adminboard', component: () => import('pages/AdminBoard.vue') },
       { name: 'AdminUserNotes',
         path: '/adminboard/:id',

@@ -46,6 +46,29 @@
       </q-item>
     </q-list>
 
+    <q-page-sticky
+      style="z-index: 999"
+      position="bottom-right"
+      :offset="[18, 18]"
+    >
+      <q-btn @click="visibleForm = !visibleForm">
+        <q-icon name="add" />
+      </q-btn>
+    </q-page-sticky>
+
+    <q-card class="q-ma-xl">
+      <q-form v-if="visibleForm">
+        <q-input v-model="username" label="username" />
+        <q-input v-model="email" label="email" />
+        <q-input v-model="password" label="password" />
+<!--         <q-select v-model="user.roles" :options="options" label="roles" /> -->
+        <q-btn class="q-pa-sm" rounded color="green">
+          <q-icon name="save" @click="register()"
+          color="white" />
+        </q-btn>
+      </q-form>
+    </q-card>
+
     <q-card v-if="store.isnotconnected" class="q-pa-xl q-ma-xl">
       Connectez-vous en tant qu'admin pour avoir accès
     </q-card>
@@ -57,23 +80,46 @@
 <script>
 import { defineComponent } from "vue";
 import { useAuthStore } from "stores/stores";
-
+import { ref } from "vue";
+import axios from "axios";
 export default defineComponent({
   name: "UserProfil",
 
   data() {
     const store = useAuthStore();
     return {
+/*       roles: ref(null),
+      options: ["user", "admin"], */
       users: [],
       user: {
         username: "",
         email: "",
-        roles: "",
+        password: "",
+        roles: []
       },
       store,
+      visibleForm: false,
     };
   },
   methods: {
+    register() {
+      const url = "http://localhost:8080/api";
+
+        axios
+          .post(url + "/auth/signup", {
+            username: this.username,
+            password: this.password,
+            email: this.email,
+/*             roles: this.roles */
+          })
+          .then((response) => {
+/*             this.$router.push(url + "/"); */
+            console.log(response.data);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
+      },
     deleteUser(_id) {
       this.store.deleteUser(_id);
     },
