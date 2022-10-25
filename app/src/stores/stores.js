@@ -83,7 +83,7 @@ export const useAuthStore = defineStore('auth', {
 
     changePassword() {
       axios
-        .patch(`http://localhost:8080/api/profil/user/changepassword`, {
+        .patch('http://localhost:8080/api/profil/user/changepassword', {
           headers: {
             "x-access-token": this.jwt
           },

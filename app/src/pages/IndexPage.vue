@@ -2,7 +2,7 @@
 <template>
   <q-page class="flex flex-center">
     <q-card square class="shadow-24">
-      <q-card-section class="bg-deep-purple-7">
+      <q-card-section class="bg-dark">
         <h4 class="text-h5 text-white q-my-md">Connexion</h4>
       </q-card-section>
       <q-card-section>
@@ -40,7 +40,7 @@
           unelevated
           @click="login()"
           size="lg"
-          class="full-width bg-deep-purple-7 text-white"
+          class="full-width bg-dark text-white"
           label="Connexion"
         />
       </q-card-actions>

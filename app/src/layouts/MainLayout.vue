@@ -6,9 +6,9 @@
 
 
 <template>
-  <q-layout class="deep-purple-9" view="lHh Lpr lFf">
-    <q-header class="deep-purple-9" elevated>
-      <q-toolbar class="bg-deep-purple-9" >
+  <q-layout view="lHh Lpr lFf">
+    <q-header elevated>
+      <q-toolbar class="bg-deep-dark-9" >
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
         <q-toolbar-title>
@@ -149,7 +149,7 @@ export default defineComponent({
       },
       notifyLogout() {
       $q.notify({
-          color: "purple",
+          color: "dark",
           message: "Successfully Logged out",
         });
       },
@@ -186,4 +186,5 @@ export default defineComponent({
       .badge:focused{
         color: black;
       }
+      
 </style>

@@ -67,7 +67,7 @@
 
           <q-btn
             v-if="store.isconnected"
-            @click="confirmDelete(note._id)"
+            @click="confirm = true"
             class="btn"
             color="red"
             flat
@@ -76,6 +76,27 @@
             <q-icon name="delete" color="deep-purple-7" size="32px" />
           </q-btn>
         </div>
+
+        <q-dialog v-model="confirm" persistent>
+          <q-card>
+            <q-card-section class="row items-center">
+              <q-avatar icon="delete" color="primary" text-color="white" />
+              <span class="q-ml-sm">Confirmer la suppression</span>
+            </q-card-section>
+
+            <q-card-actions align="right" v-bind="note">
+              <q-btn flat label="Annuler" color="primary" v-close-popup />
+              <q-btn
+                flat
+                label="Supprimer"
+                @click="deleteNote(note._id)"
+                color="primary"
+                v-close-popup
+              />
+            </q-card-actions>
+          </q-card>
+        </q-dialog>
+        
       </q-card>
     </div>
     <AddNotePopup :active="showModal" @close="showModal = false" />
@@ -122,10 +143,10 @@
 import { defineComponent } from "vue";
 import { useAuthStore } from "stores/stores";
 import { useNoteStore } from "stores/notes";
-/* import { useQuasar } from "quasar"; */
 import axios from "axios";
 import AddNotePopup from "../components/AddNotePopup";
 import moment from "moment";
+import { ref } from "vue";
 import "moment/locale/fr";
 
 export default defineComponent({
@@ -139,8 +160,8 @@ export default defineComponent({
   data() {
     const store = useAuthStore();
     const notestore = useNoteStore();
-
     return {
+      confirm: ref(false),
       notes: [],
       note: {
         title: "",
@@ -157,19 +178,6 @@ export default defineComponent({
   },
 
   methods: {
-    confirmDelete(_id) {
-      quasar
-        .dialog({
-          title: "Confirm",
-          message: "Would you like to confirm deletion?",
-          cancel: true,
-          persistent: true,
-        })
-        .onOk(() => {
-          this.deleteNote(_id);
-        });
-    },
-
     deleteNote(_id) {
       this.notestore.deleteNote(_id);
     },

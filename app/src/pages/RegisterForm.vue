@@ -3,7 +3,7 @@
     <div class="column">
       <div class="row">
         <q-card square class="shadow-24" style="">
-          <q-card-section class="bg-deep-purple-7">
+          <q-card-section class="bg-dark">
             <h4 class="text-h5 text-white q-my-md">Créer un compte</h4>
           </q-card-section>
           <q-card-section>
@@ -71,8 +71,7 @@
               @click="register()"
               unelevated
               size="lg"
-              color="deep-purple-7"
-              class="full-width text-white"
+              class="full-width text-white bg-dark"
               label="Créer"
             />
           </q-card-actions>
