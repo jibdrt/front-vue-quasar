@@ -40,6 +40,16 @@ export const useAuthStore = defineStore('auth', {
       localStorage.setItem("accessToken", "");
     },
 
+    fetchParticipants() {
+      axios
+        .get("http://localhost:8080/api/profil/all")
+        .then((response) => (this.users = response.data))
+        .then((response) => console.log(response))
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
     fetchUsers() {
       axios
         .get("http://localhost:8080/api/profil/admin", {

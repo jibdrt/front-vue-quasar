@@ -33,6 +33,33 @@
           Choisissez une date butoire
           {{ $data.deadline }}
         </q-card-section>
+
+        <q-card-section>
+          <div class="q-gutter-sm">
+            <q-select
+              v-model="participants"
+              :options="users"
+              label="Participants"
+              multiple
+              emit-value
+            >
+              <template v-slot:option="{ opt, selected, toggleOption }">
+                <q-item>
+                  <q-item-section>
+                    <q-item-label v-html="opt.username" />
+                  </q-item-section>
+                  <q-item-section side>
+                    <q-toggle
+                      :model-value="selected"
+                      @update:model-value="toggleOption(opt)"
+                    />
+                  </q-item-section>
+                </q-item>
+              </template>
+            </q-select>
+          </div>
+        </q-card-section>
+
         <q-card-section>
           <div class="q-gutter-sm">
             <q-item class="q-pa-sm">Priorité</q-item>
@@ -60,11 +87,12 @@
 
 <script>
 import { useNoteStore } from "../stores/notes";
+import { useAuthStore } from "../stores/stores";
 
 export default {
   name: "AddNotePopup",
 
-  emits: ['close'],
+  emits: ["close"],
 
   props: {
     active: {
@@ -75,6 +103,8 @@ export default {
 
   data() {
     const notestore = useNoteStore();
+    const store = useAuthStore();
+    const users = store.users;
     return {
       notes: [],
       note: {},
@@ -82,7 +112,10 @@ export default {
       content: "",
       deadline: "",
       color: "",
+      participants: [],
+      users,
       notestore,
+      store,
     };
   },
   methods: {
@@ -91,6 +124,7 @@ export default {
         title: this.title,
         content: this.content,
         deadline: this.deadline,
+        participants: this.participants,
         color: this.color,
       });
     },

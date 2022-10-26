@@ -67,7 +67,7 @@
 
           <q-btn
             v-if="store.isconnected"
-            @click="confirm = true"
+            @click="deleteNote(note._id)"
             class="btn"
             color="red"
             flat
@@ -77,26 +77,6 @@
           </q-btn>
         </div>
 
-        <q-dialog v-model="confirm" persistent>
-          <q-card>
-            <q-card-section class="row items-center">
-              <q-avatar icon="delete" color="primary" text-color="white" />
-              <span class="q-ml-sm">Confirmer la suppression</span>
-            </q-card-section>
-
-            <q-card-actions align="right" v-bind="note">
-              <q-btn flat label="Annuler" color="primary" v-close-popup />
-              <q-btn
-                flat
-                label="Supprimer"
-                @click="deleteNote(note._id)"
-                color="primary"
-                v-close-popup
-              />
-            </q-card-actions>
-          </q-card>
-        </q-dialog>
-        
       </q-card>
     </div>
     <AddNotePopup :active="showModal" @close="showModal = false" />
