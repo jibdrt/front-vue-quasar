@@ -6,6 +6,7 @@ export const useAuthStore = defineStore('auth', {
   state: () => ({
     users: [],
     user: [],
+    roles: [],
     jwt: LocalStorage.getItem('accessToken')
   }),
 
@@ -24,9 +25,15 @@ export const useAuthStore = defineStore('auth', {
     },
     getThisUser(state) {
       if (state.user.length == 0) {
-      this.fetchThisUser();
+        this.fetchThisUser();
       }
       return state.user;
+    },
+    getRoles(state) {
+      if (state.roles.length == 0) {
+        this.fetchRoles();
+      }
+      return state.roles;
     }
   },
 
@@ -44,6 +51,16 @@ export const useAuthStore = defineStore('auth', {
       axios
         .get("http://localhost:8080/api/profil/all")
         .then((response) => (this.users = response.data))
+        .then((response) => console.log(response))
+        .catch((error) => {
+          console.log(error);
+        });
+    },
+
+    fetchRoles() {
+      axios
+        .get('http://localhost:8080/api/getroles')
+        .then((response) => (this.roles = response.data))
         .then((response) => console.log(response))
         .catch((error) => {
           console.log(error);
@@ -91,16 +108,14 @@ export const useAuthStore = defineStore('auth', {
         })
     },
 
-    changePassword() {
+    changePassword(newPwd) {
       axios
-        .patch('http://localhost:8080/api/profil/user/changepassword', {
+        .patch('http://localhost:8080/api/profil/user/changepassword', newPwd, {
           headers: {
             "x-access-token": this.jwt
           },
-          currentPassword: this.currentPassword,
-          newPassword: this.newPassword,
-          confirmNewPassword: this.confirmNewPassword
-        })
+        }
+        )
         .then((response) => response.data)
         .catch((error) => {
           console.log(error);

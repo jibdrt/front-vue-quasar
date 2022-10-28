@@ -38,15 +38,16 @@
           <div class="q-gutter-sm">
             <q-select
               v-model="participants"
-              :options="users"
+              :options="store.users"
+              option-label="username"
               label="Participants"
               multiple
               emit-value
             >
-              <template v-slot:option="{ opt, selected, toggleOption }">
+              <template #option="{ opt, selected, toggleOption }">
                 <q-item>
                   <q-item-section>
-                    <q-item-label v-html="opt.username" />
+                    <q-item-label>{{ opt.username }}</q-item-label>
                   </q-item-section>
                   <q-item-section side>
                     <q-toggle
@@ -104,7 +105,7 @@ export default {
   data() {
     const notestore = useNoteStore();
     const store = useAuthStore();
-    const users = store.users;
+
     return {
       notes: [],
       note: {},
@@ -113,11 +114,11 @@ export default {
       deadline: "",
       color: "",
       participants: [],
-      users,
       notestore,
       store,
     };
   },
+  
   methods: {
     createNote() {
       this.notestore.createNote({
@@ -131,12 +132,3 @@ export default {
   },
 };
 </script>
-
-
-
-<style scoped>
-.q-chip {
-  position: absolute;
-  top: -50%;
-}
-</style>

@@ -1,1 +1,64 @@
 // app global css in SCSS form
+
+
+//Layout
+
+@media screen and (max-width: 600px) {
+    .mobile-tab {
+        display: block !important;
+        bottom: 0;
+        width: 100%;
+    }
+}
+
+
+.mobile-tab {
+    display: none;
+}
+
+.q-tabs__content{
+    justify-content: space-around;
+}
+
+.q-tab{
+    color: white;
+}
+
+router-link, link, a{
+    text-decoration: none !important;
+}
+
+
+// adminBoard
+
+
+.table-grid {
+    display: flex;
+}
+
+.fa-trash {
+    color: red;
+}
+
+// NoteList
+
+
+.btn-container {
+    width: 80px;
+    margin-top: 32px;
+}
+
+.btn-container a {
+    text-decoration: none;
+}
+
+.delete,
+.update {
+    width: 48px;
+    height: 48px !important;
+}
+
+.notecard:nth-last-child(1){
+    margin-bottom: 120px;
+}
+

@@ -26,13 +26,17 @@ export default defineComponent({
       currentPassword: "",
       newPassword: "",
       confirmNewPassword: "",
-      store
+      store,
     };
   },
   methods: {
-    changePassword(){
-        this.store.changePassword();
-    }
+    changePassword() {
+      this.store.changePassword({
+        currentPassword: this.currentPassword,
+        newPassword: this.newPassword,
+        confirmNewPassword: this.confirmNewPassword,
+      });
+    },
   },
 });
 </script>

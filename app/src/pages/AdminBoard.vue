@@ -1,20 +1,5 @@
 <template>
   <div>
-    <!--     <q-table  class="table-grid">
-      <q-tr v-for="user in store.getUsers" :key="user">
-        <q-td>
-          {{ user.username }}
-        </q-td>
-        <q-td>
-          {{ user.email }}
-        </q-td>
-        <q-td>
-          <q-btn @click="deleteUser(user._id)" flat rounded>
-            <i class="fa fa-lg fa-trash"></i>
-          </q-btn>
-        </q-td>
-      </q-tr>
-    </q-table> -->
 
     <q-list v-if="store.isconnected" bordered separator class="col">
       <q-item clickable v-ripple v-for="user in store.getUsers" :key="user">
@@ -49,7 +34,7 @@
     <q-page-sticky
       style="z-index: 999"
       position="bottom-right"
-      :offset="[18, 18]"
+      :offset="[18, 80]"
     >
       <q-btn @click="visibleForm = !visibleForm">
         <q-icon name="add" />
@@ -61,10 +46,11 @@
         <q-input v-model="username" label="username" />
         <q-input v-model="email" label="email" />
         <q-input v-model="password" label="password" />
-<!--         <q-select v-model="user.roles" :options="options" label="roles" /> -->
+
+        <q-select v-model="roles" :options="roles in store.roles" label="role" />
+
         <q-btn class="q-pa-sm" rounded color="green">
-          <q-icon name="save" @click="register()"
-          color="white" />
+          <q-icon name="save" @click="register()" color="white" />
         </q-btn>
       </q-form>
     </q-card>
@@ -80,23 +66,20 @@
 <script>
 import { defineComponent } from "vue";
 import { useAuthStore } from "stores/stores";
-import { ref } from "vue";
 import axios from "axios";
 export default defineComponent({
   name: "UserProfil",
 
   data() {
     const store = useAuthStore();
+    const roles = store.roles;
     return {
-/*       roles: ref(null),
-      options: ["user", "admin"], */
       users: [],
-      user: {
-        username: "",
-        email: "",
-        password: "",
-        roles: []
-      },
+      user: {},
+      username: "",
+      email: "",
+      password: "",
+      roles,
       store,
       visibleForm: false,
     };
@@ -105,34 +88,24 @@ export default defineComponent({
     register() {
       const url = "http://localhost:8080/api";
 
-        axios
-          .post(url + "/auth/signup", {
-            username: this.username,
-            password: this.password,
-            email: this.email,
-/*             roles: this.roles */
-          })
-          .then((response) => {
-/*             this.$router.push(url + "/"); */
-            console.log(response.data);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      },
+      axios
+        .post(url + "/auth/signup", {
+          username: this.username,
+          password: this.password,
+          email: this.email,
+          roles: this.roles,
+        })
+        .then((response) => {
+          /*             this.$router.push(url + "/"); */
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    },
     deleteUser(_id) {
       this.store.deleteUser(_id);
     },
   },
 });
 </script>
-
-<style scoped>
-.table-grid {
-  display: flex;
-}
-
-.fa-trash {
-  color: red;
-}
-</style>
