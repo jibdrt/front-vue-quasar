@@ -9,7 +9,7 @@
       <p>{{ field.title }}</p>
       <p>{{ field.priority }}</p>
       <p v-html="field.content"></p>
-      <p>{{ field.creator }}</p>
+      <p>Créée par {{ field.creator.username }}</p>
       <p>
         Créée le {{ moment(`${field.created_at}`).format("ddd DD MMM YYYY") }}
       </p>
@@ -25,7 +25,7 @@
       </p>
       <!-- <p>{{ field.participants }}</p> -->
       <div v-for="data in field.participants" :key="data">
-        {{ data }}
+        {{ data.username }}
       </div>
     </q-card>
   </q-page>
@@ -38,6 +38,10 @@ import "moment/locale/fr";
 
 export default {
   name: "NoteDetail",
+
+  props: {
+    Note: Object
+  },
 
   created: function () {
     this.moment = moment;
@@ -63,6 +67,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-</style>

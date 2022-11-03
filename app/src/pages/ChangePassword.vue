@@ -12,8 +12,6 @@
 </template>
 
 
-
-
 <script>
 import { defineComponent } from "vue";
 import { useAuthStore } from "stores/stores";
