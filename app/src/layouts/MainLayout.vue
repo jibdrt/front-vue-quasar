@@ -104,6 +104,19 @@
             </q-item-section>
           </q-item>
         </router-link>
+
+        <router-link to="/FileList">
+          <q-item clickable>
+            <q-item-section avatar>
+              <q-icon name="file" />
+            </q-item-section>
+
+            <q-item-section>
+              <q-item-label>Fichiers</q-item-label>
+              <q-item-label caption>Zone de stockage</q-item-label>
+            </q-item-section>
+          </q-item>
+        </router-link>
       </q-list>
     </q-drawer>
 
@@ -113,9 +126,8 @@
 
     <div class="fixed mobile-tab">
       <q-tabs class="bg-primary text-white shadow-2">
-
         <router-link to="/AdminBoard">
-        <q-tab name="board" icon="dashboard" label="Admin" />
+          <q-tab name="board" icon="dashboard" label="Admin" />
         </router-link>
 
         <router-link to="/UserProfil">
@@ -125,7 +137,6 @@
         <router-link to="/NoteList">
           <q-tab name="notes" icon="edit" label="Notes" />
         </router-link>
-
       </q-tabs>
     </div>
   </q-layout>
