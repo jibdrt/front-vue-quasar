@@ -69,7 +69,7 @@ export const useAuthStore = defineStore('auth', {
 
     fetchUsers() {
       axios
-        .get("http://localhost:8080/api/profil/admin", {
+        .get("http://localhost:8080/api/admin", {
           headers: {
             "x-access-token": this.jwt
           },

@@ -10,7 +10,6 @@
           <div style="height: 56px !important;"></div>
           <q-input
             square
-            
             clearable
             v-model="username"
             label="Username"
@@ -57,15 +56,29 @@
 import axios from "axios";
 import { defineComponent } from "vue";
 import { useAuthStore } from "stores/stores";
+import { useQuasar } from "quasar";
 
 export default defineComponent({
   name: "IndexPage",
   data() {
     const store = useAuthStore();
+    const $q = useQuasar();
     return {
       username: "",
       password: "",
       store,
+      notifySuccess(response){
+        $q.notify({
+          type: 'positive',
+          message: response.data.message
+        })
+      },
+      notifyError(error){
+        $q.notify({
+          type: 'negative',
+          message: error.response.data.message
+        })
+      }
     };
   },
 
@@ -80,10 +93,12 @@ export default defineComponent({
         .then((response) => {
           this.store.login(response.data.accessToken);
           this.$router.push(url + "/UserProfil");
+          this.notifySuccess(response);
           console.log(response.data);
         })
         .catch((error) => {
-          console.log(error);
+          this.notifyError(error);
+          console.log(error.response.data.message);
         });
     },
   },

@@ -1,14 +1,12 @@
 <template>
-  <q-card>
+  <q-card @click="checkcolor()">
+    <div class="check"></div>
     <q-item-section>
       <div class="row">
         <q-item>
-          <q-chip
-            :color="`${note.color}`"
-            text-color="white"
-            icon="warning"
-            :label="`Priorité`"
-          />
+          <q-chip v-if="`${note.color}` == 'green'" :label="`Non urgent`" :color="`green`" text-color="white" />
+          <q-chip v-if="`${note.color}` == 'orange'" :label="`Modéré`" :color="`orange`" text-color="white" />
+          <q-chip v-if="`${note.color}` == 'red'" :label="`Important`" :color="`red`" text-color="white" />
         </q-item>
         <q-item style="align-items: center">
           <span style="font-weight: bold">Deadline &nbsp;</span>
@@ -27,10 +25,7 @@
       <q-item> Postée par {{ note.creator.username }}</q-item>
 
       <q-item-section>
-        <p v-if="note.participants.length > 0">Participants</p>
-        <q-item v-for="participant in note.participants" :key="participant">
-          {{ participant.username }}
-        </q-item>
+        <q-item v-if="note.participants.length > 0">Participants<span v-for="participant in note.participants" :key="participant">&nbsp;{{ participant.username }}&nbsp;</span></q-item>
       </q-item-section>
     </q-item-section>
 
@@ -94,6 +89,7 @@ export default {
   },
 
   methods: {
+
     deleteNote(_id) {
       this.notestore.deleteNote(_id);
     },

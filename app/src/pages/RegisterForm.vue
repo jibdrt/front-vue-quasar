@@ -147,6 +147,7 @@ export default defineComponent({
           })
           .then((response) => {
             this.$router.push(url + "/");
+            
             console.log(response.data);
           })
           .catch((error) => {

@@ -12,9 +12,9 @@ const routes = [
       { path: '/changepassword', component: () => import('pages/ChangePassword.vue') },
       { path: '/editprofile', component: () => import('pages/ChangeCredent.vue') },
       { path: '/adminboard', component: () => import('pages/AdminBoard.vue') },
-      { name: 'AdminUserNotes',
+      { name: 'AdminUser',
         path: '/adminboard/:id',
-        component: () => import('pages/AdminUserNotes.vue') },
+        component: () => import('pages/AdminUser.vue') },
       {
         name: 'NoteDetail',
         path: '/notelist/:id',

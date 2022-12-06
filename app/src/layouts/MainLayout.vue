@@ -19,8 +19,12 @@
         <div v-if="store.isconnected">
           <q-badge color="green" label="Connecté" />
           <router-link to="/UserProfil">
-            <q-btn flat round>
+            <q-btn flat round color="primary">
               <q-icon class="badge" name="account_circle"></q-icon>
+              <q-tooltip v-for="user in store.getThisUser" :key="user">
+                <p>Connecté en tant que {{ user[0].username }}</p>
+                <p>{{ user[0].email }}</p>
+              </q-tooltip>
             </q-btn>
           </router-link>
         </div>
@@ -54,7 +58,7 @@
         <router-link to="/" v-if="store.isnotconnected">
           <q-item clickable>
             <q-item-section avatar>
-              <q-icon name="house" />
+              <q-icon name="login" />
             </q-item-section>
 
             <q-item-section>
@@ -69,7 +73,7 @@
         <router-link to="/AdminBoard" v-if="store.isconnected">
           <q-item clickable>
             <q-item-section avatar>
-              <i class="fa-lg fa-solid fa-crown"></i>
+              <q-icon name="admin_panel_settings" />
             </q-item-section>
 
             <q-item-section>
@@ -82,7 +86,7 @@
         <router-link to="/UserProfil">
           <q-item clickable>
             <q-item-section avatar>
-              <q-icon name="people" />
+              <q-icon name="account_circle" />
             </q-item-section>
 
             <q-item-section>
@@ -95,7 +99,7 @@
         <router-link to="/NoteList">
           <q-item clickable>
             <q-item-section avatar>
-              <q-icon name="today" />
+              <q-icon name="note_alt" />
             </q-item-section>
 
             <q-item-section>
@@ -108,7 +112,7 @@
         <router-link to="/FileList">
           <q-item clickable>
             <q-item-section avatar>
-              <q-icon name="file" />
+              <q-icon name="add_to_drive" />
             </q-item-section>
 
             <q-item-section>
@@ -127,15 +131,19 @@
     <div class="fixed mobile-tab">
       <q-tabs class="bg-primary text-white shadow-2">
         <router-link to="/AdminBoard">
-          <q-tab name="board" icon="dashboard" label="Admin" />
+          <q-tab name="board" icon="admin_panel_settings" label="Admin" />
         </router-link>
 
         <router-link to="/UserProfil">
-          <q-tab name="profile" icon="person" label="Profil" />
+          <q-tab name="profile" icon="account_circle" label="Profil" />
         </router-link>
 
         <router-link to="/NoteList">
-          <q-tab name="notes" icon="edit" label="Notes" />
+          <q-tab name="notes" icon="note_alt" label="Notes" />
+        </router-link>
+
+        <router-link to="/FileList">
+          <q-tab name="files" icon="add_to_drive" label="Fichiers" />
         </router-link>
       </q-tabs>
     </div>
@@ -165,10 +173,11 @@ export default defineComponent({
       },
       notifyLogout() {
         $q.notify({
-          color: "dark",
-          message: "Successfully Logged out",
+          type: "positive",
+          message: "Déconnecté",
         });
       },
+      user: {},
     };
   },
 

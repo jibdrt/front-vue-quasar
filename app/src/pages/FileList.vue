@@ -1,15 +1,21 @@
 <template>
   <q-page class="row">
-    <div
-      style="width: 100px; height: 120px; border: 2px red solid; margin: 8px"
-      v-for="file in files"
-      :key="file"
+    <q-card
+      class="file-card q-ma-md"
+      v-for="(file, idx) in files"
+      :key="idx"
+      @click="downloadWithAxios(file._id)"
     >
-      <q-btn @click="downloadWithAxios(file._id)">DOWNLOAD</q-btn>
-      {{ file.name }}
-    </div>
+      <img
+        class="file-img"
+        :src="'http://localhost:8080/api/files/' + file._id"
+      />
 
-    <div class="q-pa-md">
+      <b>{{ file.name }}</b><br><br><br><br>
+      index -> {{ idx }}
+    </q-card>
+
+    <div class="uploader-container q-pa-md absolute">
       <div class="q-gutter-sm row items-start">
         <q-uploader
           url="http://localhost:8080/api/files"
@@ -57,26 +63,27 @@ export default defineComponent({
       console.log(JSON.parse(info.xhr.response));
       this.files.push(JSON.parse(info.xhr.response));
     },
-
-    forceFileDownload(response, id) {
-      const url = window.URL.createObjectURL(new Blob([response.data]));
-      const link = document.createElement("a");
-      link.href = url;
-      link.setAttribute("download", id);
-      document.body.appendChild(link);
-      link.click();
-    },
     downloadWithAxios(id) {
+      const idx = this.notes.findIndex((g) => g.id === id);
       axios({
         method: "get",
         url: "http://localhost:8080/api/files/" + id,
-        responseType: "arraybuffer",
+        responseType: "blob",
       })
         .then((response) => {
-          const idx = this.files.findIndex((g) => g.id === id);
-          this.forceFileDownload(response, this.files[8].name);
+          var fileURL = window.URL.createObjectURL(new Blob([response.data]));
+
+          var fileLink = document.createElement("a");
+
+          fileLink.href = fileURL;
+
+          fileLink.setAttribute("download", this.files[idx].name);
+
+          document.body.appendChild(fileLink);
+
+          fileLink.click();
         })
-        .catch(() => console.log("error"));
+        .catch((err) => console.log(err));
     },
   },
 
@@ -90,4 +97,20 @@ export default defineComponent({
 </script>
 
 <style>
+.file-img {
+  width: auto;
+  height: auto;
+  border: 1px blue solid;
+  margin: 16px;
+  width: 90px;
+  height: 90px;
+}
+.file-card {
+  cursor: pointer;
+  width: 120px;
+  height: 120px;
+}
+.uploader-container {
+  bottom: 0px;
+}
 </style>

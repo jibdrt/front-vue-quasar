@@ -6,10 +6,17 @@
           <div class="text-h6">Utilisateur : {{ user[0].username }}</div>
           <div class="text-h6">mail : {{ user[0].email }}</div>
           <div class="text-h6">role : {{ user[0].roles[0].name }}</div>
+          <div>
+            {{ user[0].picture }}
+          </div>
         </q-card-section>
         <q-card-section>
-          <router-link to="/changepassword"><q-btn>Changer mot de passe</q-btn></router-link>
-          <router-link to="/editprofile"><q-btn>Changer username/mail</q-btn></router-link>
+          <router-link to="/changepassword"
+            ><q-btn>Changer mot de passe</q-btn></router-link
+          >
+          <router-link to="/editprofile"
+            ><q-btn>Changer username/mail</q-btn></router-link
+          >
         </q-card-section>
       </q-item-section>
     </q-card>
@@ -32,7 +39,7 @@ export default defineComponent({
   data() {
     const store = useAuthStore();
     return {
-      store
+      store,
     };
   },
 });

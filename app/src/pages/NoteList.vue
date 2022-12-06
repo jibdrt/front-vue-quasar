@@ -16,16 +16,16 @@
       </q-btn>
     </q-page-sticky>
 
-    <div class="col">
+ <div class="q-pa-md row items-start q-gutter-md">
 
       <NoteCard
         v-for="note in notestore.getNotes"
         :key="note._id"
-        class="card flex notecard"
+        class="q-card q-ma-md"
         :note="note"
       />
 
-    </div>
+ </div>
     <AddNotePopup :active="showModal" @close="showModal = false" />
   </q-page>
 </template>
@@ -73,9 +73,6 @@ export default defineComponent({
   },
 
   methods: {
-    deleteNote(_id) {
-      this.notestore.deleteNote(_id);
-    },
 
     editNote(id) {
       axios
