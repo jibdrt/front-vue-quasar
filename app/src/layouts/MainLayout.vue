@@ -6,6 +6,7 @@
     <q-header elevated>
       <q-toolbar>
         <q-btn
+          class="desktop-drawer"
           flat
           dense
           round
@@ -20,11 +21,11 @@
           <q-badge color="green" label="Connecté" />
           <router-link to="/UserProfil">
             <q-btn flat round color="primary">
-              <q-icon class="badge" name="account_circle"></q-icon>
-              <q-tooltip v-for="user in store.getThisUser" :key="user">
-                <p>Connecté en tant que {{ user[0].username }}</p>
-                <p>{{ user[0].email }}</p>
-              </q-tooltip>
+              <q-icon class="badge" name="account_circle" />
+<!--               <q-tooltip v-for="user in store.getThisUser" :key="user">
+                <p>Connecté en tant que {{ user.username }}</p>
+                <p>{{ user.email }}</p>
+              </q-tooltip> -->
             </q-btn>
           </router-link>
         </div>
@@ -83,7 +84,7 @@
           </q-item>
         </router-link>
 
-        <router-link to="/UserProfil">
+        <router-link to="/UserProfil" v-if="store.isconnected">
           <q-item clickable>
             <q-item-section avatar>
               <q-icon name="account_circle" />
@@ -109,7 +110,7 @@
           </q-item>
         </router-link>
 
-        <router-link to="/FileList">
+        <router-link to="/FileList" v-if="store.isconnected">
           <q-item clickable>
             <q-item-section avatar>
               <q-icon name="add_to_drive" />
@@ -130,11 +131,15 @@
 
     <div class="fixed mobile-tab">
       <q-tabs class="bg-primary text-white shadow-2">
-        <router-link to="/AdminBoard">
+        <router-link to="/AdminBoard" v-if="store.isconnected">
           <q-tab name="board" icon="admin_panel_settings" label="Admin" />
         </router-link>
 
-        <router-link to="/UserProfil">
+        <router-link to="/" v-if="store.isnotconnected">
+          <q-tab name="login" icon="admin_panel_settings" label="Connexion" />
+        </router-link>
+
+        <router-link to="/UserProfil" v-if="store.isconnected">
           <q-tab name="profile" icon="account_circle" label="Profil" />
         </router-link>
 
@@ -142,7 +147,7 @@
           <q-tab name="notes" icon="note_alt" label="Notes" />
         </router-link>
 
-        <router-link to="/FileList">
+        <router-link to="/FileList" v-if="store.isconnected">
           <q-tab name="files" icon="add_to_drive" label="Fichiers" />
         </router-link>
       </q-tabs>

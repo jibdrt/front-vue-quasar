@@ -5,8 +5,8 @@
   <q-page>
     <q-btn @click="$router.go(-1)">BACK</q-btn>
 
-    <q-card v-for="field in note" :key="field">
-      <p>{{ field.title }}</p>
+    <q-card v-for="field in note" :key="field" class="q-ma-sm">
+    <q-card-section>{{ field.title }}</q-card-section>
       <p>{{ field.priority }}</p>
       <p v-html="field.content"></p>
       <p>Créée par {{ field.creator.username }}</p>

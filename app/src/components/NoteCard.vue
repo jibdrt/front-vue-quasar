@@ -1,53 +1,70 @@
 <template>
-  <q-card @click="checkcolor()">
-    <div class="check"></div>
-    <q-item-section>
-      <div class="row">
-        <q-item>
-          <q-chip v-if="`${note.color}` == 'green'" :label="`Non urgent`" :color="`green`" text-color="white" />
-          <q-chip v-if="`${note.color}` == 'orange'" :label="`Modéré`" :color="`orange`" text-color="white" />
-          <q-chip v-if="`${note.color}` == 'red'" :label="`Important`" :color="`red`" text-color="white" />
+  <router-link :to="`/notelist/${note._id}`" class="notecard rounded">
+    <q-card>
+      <q-item-section class="row">
+        <q-item class="items-center">
+          <div>
+            <q-chip
+              class="priority-chip q-ma-sm"
+              v-if="`${note.color}` == 'green'"
+              :label="`Non urgent`"
+              :color="`green`"
+              text-color="white"
+            />
+          </div>
+          <div>
+            <q-chip
+              class="priority-chip q-ma-sm"
+              v-if="`${note.color}` == 'orange'"
+              :label="`Modéré`"
+              :color="`orange`"
+              text-color="white"
+            />
+          </div>
+          <div>
+            <q-chip
+              class="priority-chip q-ma-sm"
+              v-if="`${note.color}` == 'red'"
+              :label="`Important`"
+              :color="`red`"
+              text-color="white"
+            />
+          </div>
+<!--           <div>
+            <span class="font-weight-bold">Participants &nbsp;</span
+            ><span v-if="`${note.participants.length}` === '0'">aucun</span
+            ><span v-if="`${note.participants.length}` != '0'">{{
+              note.participants.length
+            }}</span>
+          </div> -->
         </q-item>
-        <q-item style="align-items: center">
-          <span style="font-weight: bold">Deadline &nbsp;</span>
+      </q-item-section>
+
+      <q-separator />
+
+      <q-item-section>
+        <q-item class="items-center">
+          <span class="text-weight-bold">Titre &nbsp;</span>
+          {{ note.title }}
+
+          <!--           <q-btn class="btn" color="primary" flat rounded>
+            <q-icon name="more_vert" color="deep-purple-7" size="32px" />
+          </q-btn> -->
+        </q-item>
+      </q-item-section>
+
+      <q-separator />
+
+      <q-item-section>
+        <q-item class="items-center">
+          <span class="text-weight-bold">Deadline &nbsp;</span>
           le
           {{ moment(`${note.deadline}`).format("ddd DD MMM YYYY") }},
           {{ moment(`${note.deadline}`).fromNow() }}
         </q-item>
-      </div>
-
-      <q-item style="font-weight: bold">
-        {{ note.title }}
-      </q-item>
-
-      <q-item v-html="note.content" class="notecontent"></q-item>
-
-      <q-item> Postée par {{ note.creator.username }}</q-item>
-
-      <q-item-section>
-        <q-item v-if="note.participants.length > 0">Participants<span v-for="participant in note.participants" :key="participant">&nbsp;{{ participant.username }}&nbsp;</span></q-item>
       </q-item-section>
-    </q-item-section>
-
-    <div class="btn-container">
-      <router-link :to="`/notelist/${note._id}`">
-        <q-btn class="btn" color="primary" flat rounded>
-          <q-icon name="more_vert" color="deep-purple-7" size="32px" />
-        </q-btn>
-      </router-link>
-
-      <q-btn
-        v-if="store.isconnected"
-        @click="deleteNote(note._id)"
-        class="btn"
-        color="red"
-        flat
-        rounded
-      >
-        <q-icon name="delete" color="deep-purple-7" size="32px" />
-      </q-btn>
-    </div>
-  </q-card>
+    </q-card>
+  </router-link>
 </template>
 
 
@@ -89,7 +106,6 @@ export default {
   },
 
   methods: {
-
     deleteNote(_id) {
       this.notestore.deleteNote(_id);
     },

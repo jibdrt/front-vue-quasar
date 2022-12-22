@@ -11,8 +11,6 @@
         :src="'http://localhost:8080/api/files/' + file._id"
       />
 
-      <b>{{ file.name }}</b><br><br><br><br>
-      index -> {{ idx }}
     </q-card>
 
     <div class="uploader-container q-pa-md absolute">
@@ -33,16 +31,19 @@
 <script>
 import { defineComponent } from "vue";
 import axios from "axios";
+import { useAuthStore } from "stores/stores";
 
 export default defineComponent({
   name: "FileList",
 
   data() {
+    const store = useAuthStore();
     return {
       files: [],
       file: {
         name: "",
       },
+      store,
     };
   },
 
@@ -89,7 +90,11 @@ export default defineComponent({
 
   mounted() {
     axios
-      .get("http://localhost:8080/api/files")
+      .get("http://localhost:8080/api/files", {
+        headers: {
+          "x-access-token": this.store.jwt,
+        },
+      })
       .then((response) => (this.files = response.data))
       .then((response) => console.log(response));
   },

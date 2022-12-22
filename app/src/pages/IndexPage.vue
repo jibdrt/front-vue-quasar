@@ -1,51 +1,50 @@
 
 <template>
-  <q-page class="flex flex-center">
-    <q-card square class="shadow-24">
-      <q-card-section class="bg-dark">
-        <h4 class="text-h5 text-white q-my-md">Connexion</h4>
+  <q-page class="justify-center items-center">
+    <q-card class="mobile-forms">
+      <q-card-section class="logo-tw__container">
+        <img class="logo-tw" src="..\assets\logo.svg">
       </q-card-section>
-      <q-card-section>
-        <q-form class="q-px-sm q-pt-xl q-pb-lg">
-          <div style="height: 56px !important;"></div>
+      <q-card-section class="login-form">
+        <div>Connexion</div>
+
           <q-input
+            filled
             square
             clearable
             v-model="username"
-            label="Username"
+            label="Nom d'utilisateur"
             autocomplete="on"
           >
-            <template #preprend>
-              <q-icon name="person" />
-            </template>
           </q-input>
           <q-input
-            square
-            
-            clearable
             v-model="password"
-            type="password"
-            label="Password"
-            autocomplete="on"
+            filled
+            :type="isPwd ? 'password' : 'text'"
+            label="Mot de passe"
           >
-            <template #preprend>
-              <q-icon name="lock" />
+            <template v-slot:append>
+              <q-icon
+                :name="isPwd ? 'visibility_off' : 'visibility'"
+                class="cursor-pointer"
+                @click="isPwd = !isPwd"
+              />
             </template>
           </q-input>
-        </q-form>
+
       </q-card-section>
-      <q-card-actions class="q-px-md">
+      <q-card-actions class="justify-center">
         <q-btn
           unelevated
           @click="login()"
           size="lg"
-          class="full-width bg-dark text-white"
+          class=" bg-secondary text-white form-btn"
           label="Connexion"
         />
       </q-card-actions>
-      <q-card-section class="text-center q-pa-sm">
+      <q-card-section class="text-center q-pa-xl">
         <router-link to="/register">
-          <p>Créer un compte</p>
+          <p>Pas de compte ? Créez en un</p>
         </router-link>
       </q-card-section>
     </q-card>
@@ -57,6 +56,7 @@ import axios from "axios";
 import { defineComponent } from "vue";
 import { useAuthStore } from "stores/stores";
 import { useQuasar } from "quasar";
+import { ref } from "vue";
 
 export default defineComponent({
   name: "IndexPage",
@@ -67,18 +67,19 @@ export default defineComponent({
       username: "",
       password: "",
       store,
-      notifySuccess(response){
+      isPwd: ref(true),
+      notifySuccess(response) {
         $q.notify({
-          type: 'positive',
-          message: response.data.message
-        })
+          type: "positive",
+          message: response.data.message,
+        });
       },
-      notifyError(error){
+      notifyError(error) {
         $q.notify({
-          type: 'negative',
-          message: error.response.data.message
-        })
-      }
+          type: "negative",
+          message: error.response.data.message,
+        });
+      },
     };
   },
 
@@ -104,11 +105,3 @@ export default defineComponent({
   },
 });
 </script>
-
-<style scoped>
-.q-card{
-  width: 300px;
-}
-</style>
-
-

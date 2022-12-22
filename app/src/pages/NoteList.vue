@@ -9,14 +9,14 @@
         v-if="store.isconnected"
         @click="showModal = true"
         class="q-pa-md"
-        color="deep-purple-7"
+        color="secondary"
         rounded
       >
         <q-icon name="add" />
       </q-btn>
     </q-page-sticky>
 
- <div class="q-pa-md row items-start q-gutter-md">
+ <div class="q-pa-md row">
 
       <NoteCard
         v-for="note in notestore.getNotes"

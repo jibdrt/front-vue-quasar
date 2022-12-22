@@ -5,7 +5,7 @@ import axios from 'axios';
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     users: [],
-    user: [],
+    user: {},
     roles: [],
     jwt: LocalStorage.getItem('accessToken')
   }),
@@ -24,7 +24,7 @@ export const useAuthStore = defineStore('auth', {
       return state.users;
     },
     getThisUser(state) {
-      if (state.user.length == 0) {
+      if (state.user == 0) {
         this.fetchThisUser();
       }
       return state.user;
@@ -40,16 +40,16 @@ export const useAuthStore = defineStore('auth', {
   actions: {
     login(token) {
       this.jwt = token;
-      localStorage.setItem("accessToken", token);
+      localStorage.setItem('accessToken', token);
     },
     logout() {
       this.jwt = null;
-      localStorage.setItem("accessToken", "");
+      localStorage.setItem('accessToken', '');
     },
 
     fetchParticipants() {
       axios
-        .get("http://localhost:8080/api/profil/all")
+        .get('http://localhost:8080/api/profil/all')
         .then((response) => (this.users = response.data))
         .then((response) => console.log(response))
         .catch((error) => {
@@ -67,9 +67,23 @@ export const useAuthStore = defineStore('auth', {
         });
     },
 
+    fetchThisUser() {
+      axios
+      .get("http://localhost:8080/api/profil/user", {
+        headers: {
+          "x-access-token": this.jwt,
+        },
+      })
+      .then((response) => (this.user = response.data))
+      .then((response) => response)
+      .catch((error) => {
+        console.log(error);
+      });
+    },
+
     fetchUsers() {
       axios
-        .get("http://localhost:8080/api/admin", {
+        .get('http://localhost:8080/api/admin', {
           headers: {
             "x-access-token": this.jwt
           },
@@ -83,19 +97,7 @@ export const useAuthStore = defineStore('auth', {
         });
     },
 
-    fetchThisUser() {
-      axios
-        .get('http://localhost:8080/api/profil/user', {
-          headers: {
-            "x-access-token": this.jwt
-          }
-        })
-        .then((response) => (this.user = response.data))
-        .then((response) => response)
-        .catch((error) => {
-          console.log(error);
-        })
-    },
+
 
     createUser(user) {
       axios

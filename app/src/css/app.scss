@@ -3,13 +3,22 @@
 
 //Layout
 
+a{
+    text-decoration: none;
+    color: inherit;
+}
+
 @media screen and (max-width: 600px) {
     .mobile-tab {
         display: block !important;
         bottom: 0;
         width: 100%;
     }
+    .desktop-drawer{
+        display: none !important;
+    }
 }
+
 
 
 .mobile-tab {
@@ -26,6 +35,43 @@
 
 router-link, link, a{
     text-decoration: none !important;
+}
+
+
+// Login (Index) & register
+
+.login-form{
+    display: flex;
+    height: 200px;
+    flex-direction: column;
+    row-gap: 15px;
+}
+
+.register-form{
+    display: flex;
+    flex-direction: column;
+    row-gap: 15px;
+}
+
+.form-btn{
+    width: 220px;
+}
+
+
+.logo-tw__container{
+    display: flex;
+}
+
+.logo-tw{
+    width: 200px;
+    height: 200px;
+    margin: auto;
+}
+
+// profil
+
+.profil-picture{
+    border: 4px #DF8A5C solid;
 }
 
 
@@ -58,7 +104,32 @@ router-link, link, a{
     height: 48px !important;
 }
 
+// Notecard
+
+@media screen and (max-width: 600px) {
+    .notecard{
+        width: 100%;
+    }
+}
+
+.notecard{
+    max-height: 160px !important;
+}
+
 .notecard:nth-last-child(1){
     margin-bottom: 120px;
 }
 
+
+.priority-chip{
+    min-width: 90px !important;
+    text-align: center;
+}
+
+.q-chip__content{
+    justify-content: center;
+}
+
+.rounded{
+    border-radius: 10px 10px 10px 10px;
+}
