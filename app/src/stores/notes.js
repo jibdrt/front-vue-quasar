@@ -21,13 +21,13 @@ export const useNoteStore = defineStore('notes', {
     actions: {
         fetchNotes() {
             axios
-                .get("http://localhost:8080/api/notes")
+                .get(process.env.API_URL + '/api/notes')
                 .then(response => this.notes = response.data)
                 .then((response) => console.log(response));
         },
         createNote(note) {
             axios
-                .post("http://localhost:8080/api/notes", note, {
+                .post(process.env.API_URL + '/api/notes', note, {
                     headers: {
                         'x-access-token': this.store.jwt
                     }
@@ -42,7 +42,7 @@ export const useNoteStore = defineStore('notes', {
         },
         deleteNote(_id) {
             axios
-                .delete(`http://localhost:8080/api/notes/${_id}`, {
+                .delete(process.env.API_URL + `/api/notes/${_id}`, {
                     headers: {
                         "x-access-token": this.store.jwt
                     },
