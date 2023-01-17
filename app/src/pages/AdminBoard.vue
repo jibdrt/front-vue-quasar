@@ -31,7 +31,7 @@
       </q-item>
     </q-list>
 
-    <q-page-sticky
+    <!-- <q-page-sticky
       style="z-index: 999"
       position="bottom-right"
       :offset="[18, 80]"
@@ -53,7 +53,7 @@
           <q-icon name="save" @click="register()" color="white" />
         </q-btn>
       </q-form>
-    </q-card>
+    </q-card> -->
 
     <q-card v-if="store.isnotconnected" class="q-pa-xl q-ma-xl">
       Connectez-vous en tant qu'admin pour avoir accès

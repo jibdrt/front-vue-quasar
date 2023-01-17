@@ -4,25 +4,18 @@ import { LocalStorage } from 'quasar';
 
 export const useNoteStore = defineStore('notes', {
     state: () => ({
-        notes: [],
-        storedjwt: LocalStorage.getItem('accessToken')
+        notes: []
     }),
 
     getters: {
 
         getNotes(state) {
-            if (state.notes.length == 0) {
+            if (state.notes === 0) {
                 this.fetchNotes();
             }
             return state.notes;
         },
 
-        getCategories(state) {
-            if (state.categories.length == 0) {
-                this.fetchCategories();
-            }
-            return state.categories;
-        }
     },
 
     actions: {
@@ -36,12 +29,12 @@ export const useNoteStore = defineStore('notes', {
             axios
                 .post("http://localhost:8080/api/notes", note, {
                     headers: {
-                        'x-access-token': this.storedjwt
+                        'x-access-token': this.store.jwt
                     }
                 })
                 .then((response) => {
                     this.notes.push(response.data);
-                    console.log("pushed");
+                    console.log("new note pushed");
                 })
                 .catch((error) => {
                     console.log(error);
@@ -51,7 +44,7 @@ export const useNoteStore = defineStore('notes', {
             axios
                 .delete(`http://localhost:8080/api/notes/${_id}`, {
                     headers: {
-                        "x-access-token": this.storedjwt
+                        "x-access-token": this.store.jwt
                     },
                 })
                 .then((response) => {

@@ -6,7 +6,6 @@ export const useAuthStore = defineStore('auth', {
   state: () => ({
     users: [],
     user: {},
-    roles: [],
     jwt: LocalStorage.getItem('accessToken')
   }),
 
@@ -18,7 +17,7 @@ export const useAuthStore = defineStore('auth', {
       return state.jwt == null | state.jwt == "";
     },
     getUsers(state) {
-      if (state.users.length == 0) {
+      if (state.users.length === 0) {
         this.fetchUsers();
       }
       return state.users;
@@ -29,12 +28,6 @@ export const useAuthStore = defineStore('auth', {
       }
       return state.user;
     },
-    getRoles(state) {
-      if (state.roles.length == 0) {
-        this.fetchRoles();
-      }
-      return state.roles;
-    }
   },
 
   actions: {
@@ -47,35 +40,14 @@ export const useAuthStore = defineStore('auth', {
       localStorage.setItem('accessToken', '');
     },
 
-    fetchParticipants() {
-      axios
-        .get('http://localhost:8080/api/profil/all')
-        .then((response) => (this.users = response.data))
-        .then((response) => console.log(response))
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-
-    fetchRoles() {
-      axios
-        .get('http://localhost:8080/api/getroles')
-        .then((response) => (this.roles = response.data))
-        .then((response) => console.log(response))
-        .catch((error) => {
-          console.log(error);
-        });
-    },
-
     fetchThisUser() {
       axios
-      .get("http://localhost:8080/api/profil/user", {
+      .get(process.env.API_URL + '/api/profil/user', {
         headers: {
           "x-access-token": this.jwt,
         },
       })
       .then((response) => (this.user = response.data))
-      .then((response) => response)
       .catch((error) => {
         console.log(error);
       });
@@ -83,13 +55,12 @@ export const useAuthStore = defineStore('auth', {
 
     fetchUsers() {
       axios
-        .get('http://localhost:8080/api/admin', {
+        .get(process.env.API_URL + '/api/admin', {
           headers: {
             "x-access-token": this.jwt
           },
         })
         .then((response) => (this.users = response.data))
-        .then((response) => response)
         .catch((error) => {
           if (error.response.status === 403) {
             console.log("utilisateur simple non autorisé");
@@ -101,7 +72,7 @@ export const useAuthStore = defineStore('auth', {
 
     createUser(user) {
       axios
-        .post('http://localhost:8080/api/auth/signup', user)
+        .post(process.env.API_URL + '/api/auth/signup', user)
         .then((response) => {
           this.users.push(response.data);
         })
@@ -112,7 +83,7 @@ export const useAuthStore = defineStore('auth', {
 
     changePassword(newPwd) {
       axios
-        .patch('http://localhost:8080/api/profil/user/changepassword', newPwd, {
+        .patch(process.env.API_URL + '/api/profil/user/changepassword', newPwd, {
           headers: {
             "x-access-token": this.jwt
           },
@@ -126,7 +97,7 @@ export const useAuthStore = defineStore('auth', {
 
     deleteUser(_id) {
       axios
-        .delete(`http://localhost:8080/api/profil/all/${_id}`, {
+        .delete(process.env.API_URL + `/api/profil/all/${_id}`, {
           headers: {
             "x-access-token": this.jwt
           },

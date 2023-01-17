@@ -140,7 +140,7 @@
         </router-link>
 
         <router-link to="/UserProfil" v-if="store.isconnected">
-          <q-tab name="profile" icon="account_circle" label="Profil" />
+          <q-tab name="profil" icon="account_circle" label="Profil" />
         </router-link>
 
         <router-link to="/NoteList">

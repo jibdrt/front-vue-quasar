@@ -21,23 +21,26 @@ import axios from "axios";
 export default defineComponent({
   name: "ChangeCredent",
   data() {
-    /*     const store = useAuthStore(); */
     return {
       username: "",
       email: "",
-      /*         store */
     };
   },
   methods: {
     changeCredent() {
       axios
-        .patch("http://localhost:8080/api/profil/user/editprofile", {
-          headers: {
-            authorization: localStorage.getItem("accessToken"),
+        .patch(
+          "http://localhost:8080/api/profil/user/editprofile",
+          {
+            username: this.username,
+            email: this.email,
           },
-          username: this.username,
-          email: this.email,
-        })
+          {
+            headers: {
+              'x-access-token': localStorage.getItem("accessToken"),
+            },
+          }
+        )
         .then((response) => response.data)
         .then((response) => console.log(response))
         .catch((error) => {

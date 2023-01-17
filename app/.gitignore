@@ -15,6 +15,7 @@
 # Capacitor related directories and files
 /src-capacitor/www
 /src-capacitor/node_modules
+./app/src-capacitor/android
 
 # BEX related directories and files
 /src-bex/www
@@ -31,3 +32,5 @@ yarn-error.log*
 *.ntvs*
 *.njsproj
 *.sln
+
+.quasar.env.json

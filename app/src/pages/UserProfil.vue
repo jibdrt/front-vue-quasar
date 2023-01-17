@@ -9,9 +9,6 @@
               :src="'http://localhost:8080/api/profil/picture/' + user.picture"
             />
           </q-avatar>
-          <q-btn class="edit-picture">
-            <q-icon name="edit" rounded />
-          </q-btn>
         </q-card-section>
         <q-card-section class="text-center">
           <q-card-section class="text-h5">
@@ -20,11 +17,28 @@
           <q-card-section>
             {{ user.email }}
           </q-card-section>
+          
+          <q-card-section class="justify-center flex" style="column-gap: 20px;">
+            <router-link to="/editprofile"
+              ><q-btn class="form-btn bg-secondary text-white" unelevated
+                >Modifier l'identifiant</q-btn
+              ></router-link
+            >
+            <router-link to="/editprofile"
+              ><q-btn class="form-btn bg-secondary text-white" unelevated
+                >Modifier le mot de passe</q-btn
+              ></router-link
+            >
+          </q-card-section>
           <q-card-section>
-            {{ user.involvement }}
-            </q-card-section>
-          <router-link to="/editprofile"><q-btn>username</q-btn></router-link>
-          <router-link to="/editprofile"><q-btn>pwd</q-btn></router-link>
+            <q-uploader
+              :url="'http://localhost:8080/api/profil/picture/' + user.picture"
+              label="Mettre à jour la photo de profil"
+              :factory="upload"
+              @uploaded="uploaded"
+              style="max-width: 300px"
+            />
+          </q-card-section>
         </q-card-section>
       </q-card>
     </q-page>
@@ -60,9 +74,26 @@ export default defineComponent({
     return {
       store,
       user: {
-        picture: "",
+        pictures: [],
       },
     };
+  },
+  methods: {
+    upload() {
+      return new Promise((resolve) => {
+        // Take JWT token from store
+        const token = localStorage.getItem("accessToken");
+        resolve({
+          url: "http://localhost:8080/api/profil/picture/",
+          method: "POST",
+          headers: [{ name: "x-access-token", value: `${token}` }],
+        });
+      });
+    },
+    uploaded(info) {
+      console.log(JSON.parse(info.xhr.response));
+      this.picture.push(JSON.parse(info.xhr.response));
+    },
   },
 });
 </script>
@@ -73,7 +104,7 @@ export default defineComponent({
   width: 200px;
   height: 200px;
 }
-.edit-picture{
+.edit-picture {
   width: 40px;
   height: 40px;
   border-radius: 100%;

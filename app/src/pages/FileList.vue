@@ -1,7 +1,8 @@
 <template>
+
   <q-page class="row">
-    <q-card
-      class="file-card q-ma-md"
+    <div
+      class="file-card"
       v-for="(file, idx) in files"
       :key="idx"
       @click="downloadWithAxios(file._id)"
@@ -11,7 +12,7 @@
         :src="'http://localhost:8080/api/files/' + file._id"
       />
 
-    </q-card>
+    </div>
 
     <div class="uploader-container q-pa-md absolute">
       <div class="q-gutter-sm row items-start">
@@ -53,7 +54,7 @@ export default defineComponent({
         // Take JWT token from store
         const token = localStorage.getItem("accessToken");
         resolve({
-          url: "http://localhost:8080/api/files",
+          url: process.env.API_URL + "/api/files",
           method: "POST",
           headers: [{ name: "x-access-token", value: `${token}` }],
         });
@@ -64,11 +65,12 @@ export default defineComponent({
       console.log(JSON.parse(info.xhr.response));
       this.files.push(JSON.parse(info.xhr.response));
     },
+
     downloadWithAxios(id) {
-      const idx = this.notes.findIndex((g) => g.id === id);
+      /* const idx = this.files.findIndex((g) => g.id === id); */
       axios({
         method: "get",
-        url: "http://localhost:8080/api/files/" + id,
+        url: process.env.API_URL + "/api/files/" + id,
         responseType: "blob",
       })
         .then((response) => {
@@ -78,7 +80,7 @@ export default defineComponent({
 
           fileLink.href = fileURL;
 
-          fileLink.setAttribute("download", this.files[idx].name);
+          fileLink.setAttribute("download", this.files[1].name);
 
           document.body.appendChild(fileLink);
 
@@ -90,7 +92,7 @@ export default defineComponent({
 
   mounted() {
     axios
-      .get("http://localhost:8080/api/files", {
+      .get(process.env.API_URL + "/api/files", {
         headers: {
           "x-access-token": this.store.jwt,
         },
@@ -101,7 +103,7 @@ export default defineComponent({
 });
 </script>
 
-<style>
+<style scoped>
 .file-img {
   width: auto;
   height: auto;

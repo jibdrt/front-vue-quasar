@@ -3,31 +3,51 @@
 
 <template>
   <q-page>
-    <q-btn @click="$router.go(-1)">BACK</q-btn>
-
-    <q-card v-for="field in note" :key="field" class="q-ma-sm">
-    <q-card-section>{{ field.title }}</q-card-section>
-      <p>{{ field.priority }}</p>
-      <p v-html="field.content"></p>
-      <p>Créée par {{ field.creator.username }}</p>
-      <p>
-        Créée le {{ moment(`${field.created_at}`).format("ddd DD MMM YYYY") }}
-      </p>
-      <p>
-        Mise à jour le
+    <div v-for="field in note" :key="field" class="q-ma-sm">
+      <q-btn
+        @click="$router.go(-1)"
+        class="bg-primary q-ma-md"
+        unelevated
+        rounded
+      >
+        <q-icon name="arrow_back" class="text-white" />
+      </q-btn>
+      <q-card-section class="text-center text-h3 font-weight-bold">
+        <q-chip
+          v-if="`${field.color}` == 'red'"
+          :label="`Important`"
+          :color="`red`"
+          class="text-white"
+        />
+        <q-card-section class="text-center">{{ field.title }}</q-card-section>
+      </q-card-section>
+      <q-card-section
+        ><span class="text-weight-bold">Deadline</span> le
+        {{moment(`${field.deadline}`).format("ddd DD MMM YYYY")}}, {{ moment(`${field.deadline}`).fromNow() }}</q-card-section
+      >
+      <q-separator />
+      <q-card-section v-html="field.content"></q-card-section>
+      <q-separator />
+      <q-card-section v-for="data in field.participants" :key="data">
+        <span class="text-weight-bold">Participants</span>
+        <div class="q-pa-md" v-for="data in field.participants" :key="data">
+          {{ data.username }}
+        </div>
+      </q-card-section>
+      <q-separator />
+      <q-card-section
+        ><span class="text-weight-bold">Publié par</span>
+        {{ field.creator.username }} le
+        {{
+          moment(`${field.created_at}`).format("ddd DD MMM YYYY")
+        }}</q-card-section
+      >
+      <q-card-section>
+        <span class="text-weight-bold">Mis à jour</span> le
         {{ moment(`${field.updated_at}`).format("ddd DD MMM YYYY") }}
-      </p>
-      <p v-show="field.deadline != null">
-        Deadline le {{ moment(`${field.deadline}`).format("ddd DD MMM YYYY") }}
-      </p>
-      <p v-show="field.deadline != null">
-        {{ moment(`${field.deadline}`).fromNow() }}
-      </p>
-      <!-- <p>{{ field.participants }}</p> -->
-      <div v-for="data in field.participants" :key="data">
-        {{ data.username }}
-      </div>
-    </q-card>
+      </q-card-section>
+      <p v-show="field.deadline != null"></p>
+    </div>
   </q-page>
 </template>
 
@@ -40,7 +60,7 @@ export default {
   name: "NoteDetail",
 
   props: {
-    Note: Object
+    Note: Object,
   },
 
   created: function () {
@@ -49,9 +69,8 @@ export default {
 
   mounted() {
     this.id = this.$route.params.id;
-
     axios
-      .get(`http://localhost:8080/api/notes/${this.id}`)
+      .get(process.env.API_URL + `/api/notes/${this.id}`)
       .then((response) => (this.note = response.data));
   },
 

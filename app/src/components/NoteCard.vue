@@ -30,13 +30,6 @@
               text-color="white"
             />
           </div>
-<!--           <div>
-            <span class="font-weight-bold">Participants &nbsp;</span
-            ><span v-if="`${note.participants.length}` === '0'">aucun</span
-            ><span v-if="`${note.participants.length}` != '0'">{{
-              note.participants.length
-            }}</span>
-          </div> -->
         </q-item>
       </q-item-section>
 
@@ -46,10 +39,6 @@
         <q-item class="items-center">
           <span class="text-weight-bold">Titre &nbsp;</span>
           {{ note.title }}
-
-          <!--           <q-btn class="btn" color="primary" flat rounded>
-            <q-icon name="more_vert" color="deep-purple-7" size="32px" />
-          </q-btn> -->
         </q-item>
       </q-item-section>
 
@@ -112,7 +101,7 @@ export default {
 
     editNote(id) {
       axios
-        .put("http://localhost:8080/api/notes/" + id, {
+        .put(process.env.API_URL + "/api/notes/" + id, {
           title: this.title,
           content: this.content,
           deadline: this.deadline,

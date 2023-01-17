@@ -1,0 +1,130 @@
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+@media screen and (max-width: 600px) {
+  .mobile-tab {
+    display: block !important;
+    bottom: 0;
+    width: 100%;
+  }
+  .desktop-drawer {
+    display: none !important;
+  }
+}
+
+.mobile-tab {
+  display: none;
+}
+
+.q-tabs__content {
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+.q-tab {
+  color: white;
+}
+
+router-link, link, a {
+  text-decoration: none !important;
+}
+
+.login-form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  height: 200px;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  row-gap: 15px;
+}
+
+.register-form {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  row-gap: 15px;
+}
+
+.form-btn {
+  width: 220px;
+}
+
+.logo-tw__container {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.logo-tw {
+  width: 200px;
+  height: 200px;
+  margin: auto;
+}
+
+.profil-picture {
+  border: 4px #DF8A5C solid;
+}
+
+.table-grid {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+.fa-trash {
+  color: red;
+}
+
+.btn-container {
+  width: 80px;
+  margin-top: 32px;
+}
+
+.btn-container a {
+  text-decoration: none;
+}
+
+.delete,
+.update {
+  width: 48px;
+  height: 48px !important;
+}
+
+@media screen and (max-width: 600px) {
+  .notecard {
+    width: 100%;
+  }
+}
+
+.notecard {
+  max-height: 160px !important;
+}
+
+.notecard:nth-last-child(1) {
+  margin-bottom: 120px;
+}
+
+.priority-chip {
+  min-width: 90px !important;
+  text-align: center;
+}
+
+.q-chip__content {
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.rounded {
+  border-radius: 10px 10px 10px 10px;
+}
+/*# sourceMappingURL=app.css.map */
