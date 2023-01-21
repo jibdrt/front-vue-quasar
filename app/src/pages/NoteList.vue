@@ -40,17 +40,17 @@ import { useNoteStore } from "stores/notes";
 import axios from "axios";
 import AddNotePopup from "../components/AddNotePopup";
 import NoteCard from "../components/NoteCard";
-import moment from "moment";
+/* import moment from "moment"; */
 import { ref } from "vue";
-import "moment/locale/fr";
+/* import "moment/locale/fr"; */
 
 export default defineComponent({
   components: { AddNotePopup, NoteCard },
   name: "NoteList",
 
-  created: function () {
+/*   created: function () {
     this.moment = moment;
-  },
+  }, */
 
   data() {
     const store = useAuthStore();

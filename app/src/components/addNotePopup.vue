@@ -42,7 +42,6 @@
               option-label="username"
               label="Participants"
               multiple
-              emit-value
             >
               <template #option="{ opt, selected, toggleOption }">
                 <q-item>

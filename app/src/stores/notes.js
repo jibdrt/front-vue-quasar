@@ -4,7 +4,8 @@ import { LocalStorage } from 'quasar';
 
 export const useNoteStore = defineStore('notes', {
     state: () => ({
-        notes: []
+        notes: [],
+        jwt: LocalStorage.getItem('accessToken')
     }),
 
     getters: {
@@ -29,7 +30,7 @@ export const useNoteStore = defineStore('notes', {
             axios
                 .post(process.env.API_URL + '/api/notes', note, {
                     headers: {
-                        'x-access-token': this.store.jwt
+                        'x-access-token': this.jwt
                     }
                 })
                 .then((response) => {

@@ -23,7 +23,8 @@
       </q-card-section>
       <q-card-section
         ><span class="text-weight-bold">Deadline</span> le
-        {{moment(`${field.deadline}`).format("ddd DD MMM YYYY")}}, {{ moment(`${field.deadline}`).fromNow() }}</q-card-section
+        {{ moment(`${field.deadline}`).format("ddd DD MMM YYYY") }},
+        {{ moment(`${field.deadline}`).fromNow() }}</q-card-section
       >
       <q-separator />
       <q-card-section v-html="field.content"></q-card-section>
@@ -46,7 +47,6 @@
         <span class="text-weight-bold">Mis à jour</span> le
         {{ moment(`${field.updated_at}`).format("ddd DD MMM YYYY") }}
       </q-card-section>
-      <p v-show="field.deadline != null"></p>
     </div>
   </q-page>
 </template>
