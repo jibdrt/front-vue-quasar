@@ -5,6 +5,7 @@ import axios from 'axios';
 export const useAuthStore = defineStore('auth', {
   state: () => ({
     users: [],
+    freeusers: [],
     user: {},
     jwt: LocalStorage.getItem('accessToken')
   }),
@@ -21,6 +22,12 @@ export const useAuthStore = defineStore('auth', {
         this.fetchUsers();
       }
       return state.users;
+    },
+    getUnprotected(state) {
+      if (state.freeusers.length === 0) {
+        this.fetchUnprotected();
+      }
+      return state.freeusers;
     },
     getThisUser(state) {
       if (state.user == 0) {
@@ -68,7 +75,15 @@ export const useAuthStore = defineStore('auth', {
         });
     },
 
-
+    fetchUnprotected() {
+      axios
+        .get(process.env.API_URL + '/api/allusers')
+        .then((response) => (this.freeusers = response.data))
+        .then((response) => console.log(response))
+        .catch((error) => {
+            console.log(error)
+        });
+    },
 
     createUser(user) {
       axios

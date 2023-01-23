@@ -30,7 +30,7 @@
               </q-date>
             </q-popup-proxy>
           </q-btn>
-          Choisissez une date butoire
+          Choisissez une date échéance
           {{ $data.deadline }}
         </q-card-section>
 
@@ -38,7 +38,7 @@
           <div class="q-gutter-sm">
             <q-select
               v-model="participants"
-              :options="store.users"
+              :options="store.freeusers"
               option-label="username"
               label="Participants"
               multiple
