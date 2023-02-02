@@ -3,6 +3,7 @@
 
 <template>
   <q-page>
+    {{ $route.params.id }}
     <div v-for="field in note" :key="field" class="q-ma-sm">
       <q-btn
         @click="$router.go(-1)"
@@ -12,14 +13,31 @@
       >
         <q-icon name="arrow_back" class="text-white" />
       </q-btn>
-      <q-card-section class="text-center text-h3 font-weight-bold">
+      <q-card-section class="text-center text-h5 font-weight-bold">
         <q-chip
           v-if="`${field.color}` == 'red'"
           :label="`Important`"
           :color="`red`"
           class="text-white"
         />
-        <q-card-section class="text-center">{{ field.title }}</q-card-section>
+        <q-chip
+          v-if="`${field.color}` == 'orange'"
+          :label="`Modéré`"
+          :color="`orange`"
+          class="text-white"
+        />
+        <q-chip
+          v-if="`${field.color}` == 'green'"
+          :label="`Non urgent`"
+          :color="`green`"
+          class="text-white"
+        />
+
+        <q-card-section class="text-center">
+          <p contenteditable @keyup="updateContent($event, 'title')">
+            {{ field.title }}
+          </p>
+        </q-card-section>
       </q-card-section>
       <q-card-section
         ><span class="text-weight-bold">Deadline</span> le
@@ -27,7 +45,12 @@
         {{ moment(`${field.deadline}`).fromNow() }}</q-card-section
       >
       <q-separator />
-      <q-card-section v-html="field.content"></q-card-section>
+      <q-card-section>
+        <p
+        contenteditable
+        @input="updateContent($event, 'content')"
+        >{{ field.content }}</p>
+      </q-card-section>
       <q-separator />
       <q-card-section v-for="data in field.participants" :key="data">
         <span class="text-weight-bold">Participants</span>
@@ -68,21 +91,44 @@ export default {
   },
 
   mounted() {
-    this.id = this.$route.params.id;
     axios
       .get(process.env.API_URL + `/api/notes/${this.id}`)
       .then((response) => (this.note = response.data));
   },
 
   data() {
+    this.id = this.$route.params.id;
     return {
-      id: this.$route.params.id,
       note: {},
       title: "",
       content: "",
       deadline: "",
       creator: "",
     };
+  },
+
+  methods: {
+    updateContent(e, contentType) {
+      const inputText = e.target.innerText;
+      axios
+        .patch(process.env.API_URL + `/api/notes/${this.id}`, {
+          title: this.title,
+          content: this.content
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+      switch (contentType) {
+        case "title":
+          this.title = inputText;
+          break;
+        case "content":
+          this.content = inputText;
+          break;
+        default:
+          break;
+      }
+    },
   },
 };
 </script>

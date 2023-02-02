@@ -16,16 +16,14 @@
       </q-btn>
     </q-page-sticky>
 
- <div class="q-pa-md row">
-
+    <div class="q-pa-md row">
       <NoteCard
         v-for="note in notestore.getNotes"
         :key="note._id"
         class="q-card q-ma-md"
         :note="note"
       />
-
- </div>
+    </div>
     <AddNotePopup :active="showModal" @close="showModal = false" />
   </q-page>
 </template>
@@ -40,17 +38,11 @@ import { useNoteStore } from "stores/notes";
 import axios from "axios";
 import AddNotePopup from "../components/AddNotePopup";
 import NoteCard from "../components/NoteCard";
-/* import moment from "moment"; */
 import { ref } from "vue";
-/* import "moment/locale/fr"; */
 
 export default defineComponent({
   components: { AddNotePopup, NoteCard },
   name: "NoteList",
-
-/*   created: function () {
-    this.moment = moment;
-  }, */
 
   data() {
     const store = useAuthStore();
@@ -73,8 +65,7 @@ export default defineComponent({
   },
 
   methods: {
-
-    editNote(id) {
+/*     editNote(id) {
       axios
         .put("http://localhost:8080/api/notes/" + id, {
           title: this.title,
@@ -90,7 +81,7 @@ export default defineComponent({
         .catch((error) => {
           console.log(error);
         });
-    },
+    }, */
   },
 });
 </script>

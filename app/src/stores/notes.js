@@ -11,7 +11,7 @@ export const useNoteStore = defineStore('notes', {
     getters: {
 
         getNotes(state) {
-            if (state.notes === 0) {
+            if (state.notes == 0) {
                 this.fetchNotes();
             }
             return state.notes;

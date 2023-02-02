@@ -3,7 +3,7 @@
   <q-page class="justify-center items-center">
     <q-card class="mobile-forms">
       <q-card-section class="logo-tw__container">
-        <img class="logo-tw" src="..\assets\logo.svg">
+        <img class="logo-tw" src="..\assets\logo-ruddr.png">
       </q-card-section>
       <q-card-section class="login-form">
         <div>Connexion</div>
