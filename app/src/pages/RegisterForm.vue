@@ -2,7 +2,7 @@
   <q-page class="justify-center items-center">
     <q-card square class="mobile-forms q-ma-xs">
       <q-card-section class="logo-tw__container">
-        <img class="logo-tw" src="..\assets\logo.svg" />
+        <img class="logo-tw" src="..\assets\logo-ruddr.png">
       </q-card-section>
 
       <q-card-section>
@@ -14,12 +14,9 @@
             clearable
             v-model="state.username"
             type="username"
-            label="Username"
+            label="Nom d'utilisateur"
           >
           </q-input>
-          <span class="failed-notify" v-if="v$.username.$error">
-            {{ validation.username.required.$message }}
-          </span>
 
           <q-input
             filled
@@ -31,15 +28,11 @@
           >
           </q-input>
 
-          <span class="failed-notify" v-if="v$.email.$error">
-            {{ validation.email.required.$message }}
-          </span>
-
           <q-input
             v-model="state.password"
             filled
             :type="isPwd ? 'password' : 'text'"
-            label="Password"
+            label="Mot de passe"
           >
             <template v-slot:append>
               <q-icon
@@ -50,15 +43,12 @@
             </template>
           </q-input>
 
-          <span class="failed-notify" v-if="v$.password.$error">
-            {{ validation.password.required.$message }}
-          </span>
-
           <q-input
             v-model="state.confirmpassword"
             filled
             :type="iscPwd ? 'password' : 'text'"
-            label="confirmpassword"
+            label="Confirmation du mot de passe"
+            v-if="state.password != ''"
           >
             <template v-slot:append>
               <q-icon
@@ -68,10 +58,24 @@
               />
             </template>
           </q-input>
-
-          <span class="failed-notify" v-if="v$.confirmpassword.$error">
-            {{ validation.confirmpassword.required.$message }}
-          </span>
+          <q-card-section>
+            <div class="failed-notify" v-if="v$.username.$error">
+              <q-icon name="cancel" color="negative"/>
+              {{ validation.username.required.$message }}
+            </div>
+            <div class="failed-notify" v-if="v$.email.$error">
+              <q-icon name="cancel" color="negative"/>
+              {{ validation.email.required.$message }}
+            </div>
+            <div class="failed-notify" v-if="v$.password.$error">
+              <q-icon name="cancel" color="negative"/>
+              {{ validation.password.required.$message }}
+            </div>
+            <div class="failed-notify" v-if="v$.confirmpassword.$error">
+              <q-icon name="cancel" color="negative"/>
+              {{ validation.confirmpassword.required.$message }}
+            </div>
+          </q-card-section>
         </q-form>
       </q-card-section>
       <q-card-actions class="justify-center">
@@ -121,7 +125,7 @@ export default defineComponent({
         email: { required, email },
         username: { required, minLength: minLength(4) },
         password: { required, minLength: minLength(4) },
-        confirmpassword: { required, sameAsPassword: sameAs("password") },
+        confirmpassword: { required, sameAsPassword: sameAs(state.password) },
       };
     });
 
