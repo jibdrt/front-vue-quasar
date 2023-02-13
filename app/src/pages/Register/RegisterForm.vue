@@ -1,9 +1,8 @@
 <template>
   <q-page class="justify-center items-center">
     <q-card square class="mobile-forms q-ma-xs">
-      <q-card-section class="logo-tw__container">
-        <img class="logo-tw" src="..\assets\logo-ruddr.png">
-      </q-card-section>
+
+      <LogoApp />
 
       <q-card-section>
         <q-form class="register-form">
@@ -109,8 +108,10 @@ import {
 } from "@vuelidate/validators";
 import { reactive, computed } from "vue";
 import { ref } from "vue";
+import LogoApp from "../../components/LogoApp.vue";
 
 export default defineComponent({
+  components: { LogoApp },
   name: "RegisterForm",
   data() {
     const state = reactive({

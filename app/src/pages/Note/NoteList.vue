@@ -36,8 +36,8 @@ import { defineComponent } from "vue";
 import { useAuthStore } from "stores/stores";
 import { useNoteStore } from "stores/notes";
 import axios from "axios";
-import AddNotePopup from "../components/AddNotePopup";
-import NoteCard from "../components/NoteCard";
+import AddNotePopup from "../../components/AddNotePopup";
+import NoteCard from "../../components/NoteCard";
 import { ref } from "vue";
 
 export default defineComponent({

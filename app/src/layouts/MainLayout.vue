@@ -22,10 +22,6 @@
           <router-link to="/UserProfil">
             <q-btn flat round color="primary">
               <q-icon class="badge" name="account_circle" />
-<!--               <q-tooltip v-for="user in store.getThisUser" :key="user">
-                <p>Connecté en tant que {{ user.username }}</p>
-                <p>{{ user.email }}</p>
-              </q-tooltip> -->
             </q-btn>
           </router-link>
         </div>
@@ -50,11 +46,6 @@
       <q-list>
         <q-item-label header> Menu </q-item-label>
 
-        <!--<EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />-->
 
         <router-link to="/" v-if="store.isnotconnected">
           <q-item clickable>

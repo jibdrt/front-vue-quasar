@@ -2,9 +2,9 @@
 <template>
   <q-page class="justify-center items-center">
     <q-card class="mobile-forms">
-      <q-card-section class="logo-tw__container">
-        <img class="logo-tw" src="..\assets\logo-ruddr.png">
-      </q-card-section>
+
+        <LogoApp />
+
       <q-card-section class="login-form">
         <div>Connexion</div>
 
@@ -57,8 +57,10 @@ import { defineComponent } from "vue";
 import { useAuthStore } from "stores/stores";
 import { useQuasar } from "quasar";
 import { ref } from "vue";
+import LogoApp from "../../components/LogoApp.vue";
 
 export default defineComponent({
+  components: { LogoApp },
   name: "IndexPage",
   data() {
     const store = useAuthStore();
